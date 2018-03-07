@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   printf.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/07 17:36:21 by domelche          #+#    #+#             */
+/*   Updated: 2018/03/07 17:36:43 by domelche         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef PRINTF_H
 
@@ -46,9 +57,9 @@ typedef struct	s_arg
 	char		conv;
 }				t_arg;
 
-t_flag	*ft_flagnew();
-t_lflag	*ft_lflagnew();
+t_flag			*ft_flagnew();
+t_lflag			*ft_lflagnew();
 
-int		ft_printf(const char *format, ...);
+int				ft_printf(const char *format, ...);
 
 #endif
