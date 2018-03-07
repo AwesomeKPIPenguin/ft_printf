@@ -6,7 +6,7 @@
 #    By: domelche <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/25 15:13:01 by domelche          #+#    #+#              #
-#    Updated: 2017/10/25 15:13:03 by domelche         ###   ########.fr        #
+#    Updated: 2018/03/07 19:30:44 by domelche         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,5 +36,9 @@ clean:
 
 fclean: clean
 	@/bin/rm -f $(NAME)
+
+test: $(OBJ)
+	@make -C libft/
+	@$(CC) $(OBJ) -o test libft/libft.a
 
 re: fclean all
