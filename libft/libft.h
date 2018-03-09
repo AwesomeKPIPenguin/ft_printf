@@ -6,7 +6,7 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/25 15:12:40 by domelche          #+#    #+#             */
-/*   Updated: 2018/02/18 20:01:21 by domelche         ###   ########.fr       */
+/*   Updated: 2018/03/09 16:46:17 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,8 @@ void				*ft_smemalloc(size_t size, char *ft_name);
 int					ft_arrlen(char **arr);
 void				ft_free_tab(char **tab);
 int					get_next_line(const int fd, char **line);
+void				ft_error(char *msg);
+void				ft_warn(char *msg);
+int					ft_indexof_chr(char *str, int c);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/07 17:36:21 by domelche          #+#    #+#             */
-/*   Updated: 2018/03/07 20:07:57 by domelche         ###   ########.fr       */
+/*   Updated: 2018/03/09 18:04:20 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ typedef struct	s_arg
 }				t_arg;
 
 t_flag			*ft_flagnew();
+int				ft_parse_lflags(char *str, t_arg *arg);
+
 t_lflag			*ft_lflagnew();
+int				ft_parse_flags(char *str, t_arg *arg);
 
 int				ft_printf(const char *format, ...);
 

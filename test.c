@@ -1,6 +1,7 @@
 
 #include "printf.h"
 #include "stdio.h"
+#include <limits.h>
 
 void	ft_args(int arg0, ...)
 {
@@ -20,6 +21,6 @@ void	ft_args(int arg0, ...)
 int		main(void)
 {
 	//ft_args(0, 1, 2, 3, 4);
-	printf("%li\n", 2147483647);
+	printf("%+05lq", 1.123456789f);
 	return (0);
 }
