@@ -29,7 +29,7 @@ static char	*ft_atoi_cut(char *str, int *sign)
 	while (s[i] == '0')
 		i++;
 	j = i;
-	while (ft_isdigit(s[j]) != 0 && s[j])
+	while (ft_isdigit(s[j]) && s[j])
 		j++;
 	s[j] = 0;
 	res = ft_strdup(&s[i]);

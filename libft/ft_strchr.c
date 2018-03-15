@@ -17,8 +17,8 @@ char	*ft_strchr(const char *s, int c)
 	char	*res;
 
 	res = (char *)s;
-	while (*res != c && *res != '\0')
-		res++;
+	while (*res != c && *res)
+		++res;
 	if (*res == c)
 		return (res);
 	else

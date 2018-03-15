@@ -18,9 +18,9 @@ void	ft_args(int arg0, ...)
 	va_end(ap);
 }
 
-int		main(void)
-{
+//int		main(void)
+//{
 	//ft_args(0, 1, 2, 3, 4);
-	printf("%+05lq", 1.123456789f);
-	return (0);
-}
+	//printf("%+05lq", 1.123456789f);
+	//return (0);
+//}

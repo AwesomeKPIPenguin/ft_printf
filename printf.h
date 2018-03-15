@@ -15,19 +15,9 @@
 # define PRINTF_H
 
 # include <stdarg.h>
+# include <wchar.h>
 # include "libft/libft.h"
 # include <stdio.h>
-
-typedef enum	e_type
-{
-				INT,
-				U_INT,
-				DOUBLE,
-				CHAR_PTR,
-				WCHAR_PTR,
-				VOID_PTR,
-				INT_PTR
-}				t_type;
 
 typedef struct	s_flag
 {
@@ -62,6 +52,8 @@ int				ft_parse_lflags(char *str, t_arg *arg);
 
 t_lflag			*ft_lflagnew();
 int				ft_parse_flags(char *str, t_arg *arg);
+
+char			*ft_create_args_list(t_list **list, char *format);
 
 int				ft_printf(const char *format, ...);
 

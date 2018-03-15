@@ -10,10 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "../printf.h"
 
 int		ft_printf(const char *format, ...)
 {
-	(void)format;
+	va_list ap;
+	t_list	*args;
+	char 	*str;
+
+	if (!ft_strchr(format, '%'))
+	{
+		ft_putstr(format);
+		return ((int)ft_strlen(format));
+	}
+	va_start(ap, format);
+	str = ft_strdup(format);
+	if (!(str = ft_create_args_list(&args, str)))
+		return (0);
+	//ft_print(&ap, str, args);
+	va_end(ap);
 	return (1);
 }
