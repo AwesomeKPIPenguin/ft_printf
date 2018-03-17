@@ -15,6 +15,8 @@
 # define PRINTF_H
 
 # include <stdarg.h>
+# include <stddef.h>
+# include <stdint.h>
 # include <wchar.h>
 # include "libft/libft.h"
 # include <stdio.h>
@@ -54,6 +56,8 @@ t_lflag			*ft_lflagnew();
 int				ft_parse_flags(char *str, t_arg *arg);
 
 char			*ft_create_args_list(t_list **list, char *format);
+
+void			ft_print(va_list ap, char *format, t_list *args);
 
 int				ft_printf(const char *format, ...);
 

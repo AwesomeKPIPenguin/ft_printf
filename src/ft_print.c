@@ -15,43 +15,47 @@
 static void ft_print_arg_i(t_arg *arg, va_list ap)
 {
 	long long	data;
+	char 		*str;
 
 	data = va_arg(ap, long long);
 	if (arg->lflags->ll)
-		ft_putstr(ft_itoa(data));
+		str = ft_itoa(data);
 	else if (arg->lflags->l)
-		ft_putstr(ft_itoa((long)data));
+		str = ft_itoa((long)data);
 	else if (arg->lflags->h)
-		ft_putstr(ft_itoa((short)data));
+		str = ft_itoa((short)data);
 	else if (arg->lflags->hh)
-		ft_putstr(ft_itoa((signed char)data));
+		str = ft_itoa((signed char)data);
 	else if (arg->lflags->j)
-		ft_putstr(ft_itoa((intmax_t)data));
+		str = ft_itoa((intmax_t)data);
 	else if (arg->lflags->z)
-		ft_putstr(ft_itoa((size_t)data)); // <---------- z flag ---------------
+		str = ft_itoa((size_t)data); // <---------- z flag ---------------
 	else
-		ft_putstr(ft_itoa((int)data));
+		str = ft_itoa((int)data);
+	ft_putstr(str);
 }
 
 static void ft_print_arg_u(t_arg *arg, va_list ap)
 {
 	unsigned long long	data;
+	char 				*str;
 
 	data = va_arg(ap, unsigned long long);
 	if (arg->lflags->ll)
-		ft_putstr(ft_itoa(data));
+		str = ft_itoa(data);
 	else if (arg->lflags->l)
-		ft_putstr(ft_itoa((unsigned long)data));
+		str = ft_itoa((unsigned long)data);
 	else if (arg->lflags->h)
-		ft_putstr(ft_itoa((unsigned short)data));
+		str = ft_itoa((unsigned short)data);
 	else if (arg->lflags->hh)
-		ft_putstr(ft_itoa((unsigned char)data));
+		str = ft_itoa((unsigned char)data);
 	else if (arg->lflags->j)
-		ft_putstr(ft_itoa((uintmax_t)data));
+		str = ft_itoa((uintmax_t)data);
 	else if (arg->lflags->z)
-		ft_putstr(ft_itoa((size_t)data));
+		str = ft_itoa((size_t)data);
 	else
-		ft_putstr(ft_itoa((unsigned int)data));
+		str = ft_itoa((unsigned int)data);
+	ft_putstr(str);
 }
 
 static void	ft_print_arg_c(t_arg *arg, va_list ap)
@@ -59,8 +63,8 @@ static void	ft_print_arg_c(t_arg *arg, va_list ap)
 	wint_t	data;
 
 	data = va_arg(ap, wint_t);
-	if (arg->lflags->l + arg->lflags->ll)
-		ft_putchar(data);
+	if (arg->lflags->l + arg->lflags->ll || arg->conv == 'C')
+		ft_putwchar(data);
 	else
 		ft_putchar((unsigned char)data);
 }
@@ -70,8 +74,8 @@ static void	ft_print_arg_s(t_arg *arg, va_list ap)
 	wchar_t	*data;
 
 	data = va_arg(ap, wchar_t *);
-	if (arg->lflags->l + arg->lflags->ll)
-		ft_putstr(data);
+	if (arg->lflags->l + arg->lflags->ll || arg->conv == 'S')
+		ft_putwstr(data);
 	else
 		ft_putstr((char *)data);
 }
@@ -89,7 +93,7 @@ static void	ft_print_arg(t_arg *arg, va_list ap)
 		ft_print_arg_s(arg, ap);
 }
 
-void		ft_print(va_list *ap, char *format, t_list *args)
+void		ft_print(va_list ap, char *format, t_list *args)
 {
 	int 	i;
 

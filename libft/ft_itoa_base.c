@@ -11,37 +11,24 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "itoa_basic.h"
 
-static char	*ft_strextract(char *str, int sign)
+char		*ft_itoa_base(long long num, int base)
 {
-	unsigned int	i;
-
-	i = 0;
-	while ((str[i] == '0' || !str[i]) && i < 31)
-		i++;
-	if (sign)
-		str[--i] = '-';
-	return (ft_strdup(&str[i]));
-}
-
-char		*ft_itoa_base(int n, int base)
-{
-	unsigned int	num;
-	int				sign;
-	int				i;
-	char			*str;
+	unsigned long long	unum;
+	int 				sign;
 
 	if (base < 2 || base > 16)
 		return (NULL);
-	num = (n < 0) ? ((n + 1) * (-1) + 1) : n;
-	sign = (n < 0 && base == 10) ? 1 : 0;
-	if (!(str = (char *)ft_memalloc(sizeof(char) * 33)))
-		return (NULL);
-	i = 31;
-	while (i >= sign)
+	if (num < 0)
 	{
-		str[i--] = "0123456789abcdef"[num % base];
-		num /= base;
+		unum = -1 * num;
+		sign = 1;
 	}
-	return (ft_strextract(str, sign));
+	else
+	{
+		unum = num;
+		sign = 0;
+	}
+	return (ft_itoa_basic(unum, sign, base));
 }

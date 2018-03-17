@@ -111,7 +111,7 @@ char	*ft_create_args_list(t_list **list, char *format)
 	i = -1;
 	while (format[++i])
 	{
-		printf("%c\n", format[i]);
+//		printf("%c\n", format[i]);
 		if (format[i] == '%')
 		{
 			if (!(arg = ft_parse_arg(&format[++i], &to_cut)))
@@ -119,9 +119,9 @@ char	*ft_create_args_list(t_list **list, char *format)
 			to_remove = format;
 			format = ft_strcut(format, i, i + to_cut);
 			free(to_remove);
-			printf("format: %s\n", format);
+//			printf("format: %s\n", format);
 			ft_lstpush(list, ft_nodenew(arg, sizeof(t_arg)));
-			printf("left from [i]: %s\n", &format[i]);
+//			printf("left from [i]: %s\n", &format[i]);
 		}
 	}
 	return (format);

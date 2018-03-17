@@ -12,7 +12,7 @@
 
 NAME = libftprintf.a
 
-SRCS = $(wildcard src/*.c)
+SRCS = $(wildcard src/*.c test.c)
 
 OBJ = $(SRCS:.c=.o)
 
@@ -33,12 +33,14 @@ $(NAME): $(OBJ)
 
 clean:
 	@/bin/rm -f src/*.o
+	@$(MAKE) clean -C libft
 
 fclean: clean
 	@/bin/rm -f $(NAME)
+	@$(MAKE) fclean -C libft
 
 test: $(OBJ)
-	@make -C libft/
+	@$(MAKE) -C libft/
 	@$(CC) $(OBJ) -o test libft/libft.a
 
 re: fclean all

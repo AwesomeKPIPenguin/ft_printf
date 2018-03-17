@@ -11,41 +11,22 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "itoa_basic.h"
 
-static int	ft_intlen(int n)
+char		*ft_itoa(long long num)
 {
-	int		len;
+	unsigned long long	unum;
+	int 				sign;
 
-	len = 1;
-	while (n / 10 != 0)
+	if (num < 0)
 	{
-		n /= 10;
-		len++;
+		unum = -1 * num;
+		sign = 1;
 	}
-	return (len);
-}
-
-char		*ft_itoa(int n)
-{
-	unsigned int	num;
-	int				len;
-	int				sign;
-	int				i;
-	char			*str;
-
-	num = (n < 0) ? ((n + 1) * (-1) + 1) : n;
-	len = ft_intlen(n);
-	sign = (n < 0) ? 1 : 0;
-	if (!(str = (char *)malloc(sizeof(char) * (len + 1 + sign))))
-		return (NULL);
-	i = len - 1 + sign;
-	str[len + sign] = 0;
-	if (sign)
-		str[0] = '-';
-	while (i >= sign)
+	else
 	{
-		str[i--] = num % 10 + '0';
-		num /= 10;
+		unum = num;
+		sign = 0;
 	}
-	return (str);
+	return (ft_itoa_basic(unum, sign, 10));
 }

@@ -27,7 +27,7 @@ int		ft_printf(const char *format, ...)
 	str = ft_strdup(format);
 	if (!(str = ft_create_args_list(&args, str)))
 		return (0);
-	//ft_print(&ap, str, args);
+	ft_print(ap, str, args);
 	va_end(ap);
 	return (1);
 }
