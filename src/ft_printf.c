@@ -6,7 +6,7 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/07 17:35:29 by domelche          #+#    #+#             */
-/*   Updated: 2018/03/07 20:07:55 by domelche         ###   ########.fr       */
+/*   Updated: 2018/03/22 15:45:08 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		ft_printf(const char *format, ...)
 	str = ft_strdup(format);
 	if (!(str = ft_create_args_list(&args, str)))
 		return (0);
-	//ft_print(&ap, str, args);
+	ft_print(&ap, str, args);
 	va_end(ap);
 	return (1);
 }

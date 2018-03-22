@@ -3,24 +3,11 @@
 #include "stdio.h"
 #include <limits.h>
 
-void	ft_args(int arg0, ...)
+int		main(void)
 {
-	va_list	ap;
-	//var		arg;
-	int		arg;
-
-	va_start(ap, arg0);
-	for (int i = 0; i < 5; i++)
-	{
-		arg = va_arg(ap, int);
-		printf("%d\n", arg);
-	}
-	va_end(ap);
+	printf("printf: Nu %s, %c%c! %d, %o, %u, %x\n",
+			"zdarova", 'h', 'u', 'i', 228, 228, 228, 228);
+	ft_printf("ft_printf: Nu %s, %c%c! %d, %o, %u, %x\n",
+			"zdarova", 'h', 'u', 'i', 228, 228, 228, 228);
+	return (0);
 }
-
-//int		main(void)
-//{
-	//ft_args(0, 1, 2, 3, 4);
-	//printf("%+05lq", 1.123456789f);
-	//return (0);
-//}

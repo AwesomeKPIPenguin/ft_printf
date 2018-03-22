@@ -6,7 +6,7 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/07 17:36:21 by domelche          #+#    #+#             */
-/*   Updated: 2018/03/09 18:04:20 by domelche         ###   ########.fr       */
+/*   Updated: 2018/03/22 15:47:11 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,42 +19,36 @@
 # include "libft/libft.h"
 # include <stdio.h>
 
-typedef struct	s_flag
+# define F_SHARP	0x8000
+# define F_ZERO		0x4000
+# define F_MINUS	0x2000
+# define F_PLUS		0x1000
+# define F_SPACE	0x800
+
+# define LF_L		0x80
+# define LF_LL		0x40
+# define LF_H		0x20
+# define LF_HH		0x10
+# define LF_J		0x8
+# define LF_Z		0x4
+
+typedef struct		s_arg
 {
-	int			sharp;
-	int			zero;
-	int			minus;
-	int			plus;
-	int			space;
-}				t_flag;
+	short			flags;
+	int				width;
+	int				prec;
+	unsigned char	lflags;
+	char			conv;
+}					t_arg;
 
-typedef struct	s_lflag
-{
-	int			l;
-	int			ll;
-	int			h;
-	int			hh;
-	int			j;
-	int			z;
-}				t_lflag;
+int					ft_parse_lflags(char *str, t_arg *arg);
 
-typedef struct	s_arg
-{
-	t_flag		*flags;
-	int			width;
-	int			prec;
-	t_lflag		*lflags;
-	char		conv;
-}				t_arg;
+int					ft_parse_flags(char *str, t_arg *arg);
 
-t_flag			*ft_flagnew();
-int				ft_parse_lflags(char *str, t_arg *arg);
+char				*ft_create_args_list(t_list **list, char *format);
 
-t_lflag			*ft_lflagnew();
-int				ft_parse_flags(char *str, t_arg *arg);
+void				ft_print(va_list *ap, char *format, t_list *args);
 
-char			*ft_create_args_list(t_list **list, char *format);
-
-int				ft_printf(const char *format, ...);
+int					ft_printf(const char *format, ...);
 
 #endif

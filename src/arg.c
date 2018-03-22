@@ -6,7 +6,7 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/07 17:34:31 by domelche          #+#    #+#             */
-/*   Updated: 2018/03/09 18:04:18 by domelche         ###   ########.fr       */
+/*   Updated: 2018/03/22 16:20:19 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,18 @@ void	ft_print_arg(t_arg *arg)
 		printf("\n(null)\n\n");
 		return ;
 	}
-	printf("\n{\n\tflags:\n\t{\n\t\t'#': %d\n\t\t'0': %d\n\t\t'-': %d\n\t\t'+':\
-%d\n\t\t' ': %d\n\t}\n\twidth: %d\n\tprecision: %d\n\tlength flags:\n\t{\n\t\tl\
-: %d\n\t\tll: %d\n\t\th: %d\n\t\thh: %d\n\t\tj: %d\n\t\tz: %d\n\t}\n\tconversio\
-n: %c\n}\n\n",
-			arg->flags->sharp, arg->flags->zero, arg->flags->minus,
-			arg->flags->plus, arg->flags->space, arg->width, arg->prec,
-			arg->lflags->l, arg->lflags->ll, arg->lflags->h, arg->lflags->hh,
-			arg->lflags->j, arg->lflags->z, arg->conv);
+	printf("\n{\n\tflags:\n\t{\n\t\t'#0-+ '\n\t\t %d%d%d%d%d\n\t}\n\t\
+width: %d\n\tprecision: %d\n\t\
+length flags:\n\t{\n\t\tl  ll h  hh j  z\n\t\t%d  %d  %d  %d  %d  %d\n\t}\n\t\
+conversion: %c\n}\n\n",
+			(arg->flags & F_SHARP) ? 1 : 0, (arg->flags & F_ZERO) ? 1 : 0,
+			(arg->flags & F_MINUS) ? 1 : 0, (arg->flags & F_PLUS) ? 1 : 0, 
+			(arg->flags & F_SPACE) ? 1 : 0,
+			arg->width, arg->prec,
+			(arg->lflags & LF_L) ? 1 : 0, (arg->lflags & LF_LL) ? 1 : 0,
+			(arg->lflags & LF_H) ? 1 : 0, (arg->lflags & LF_HH) ? 1 : 0,
+			(arg->lflags & LF_J) ? 1 : 0, (arg->lflags & LF_Z) ? 1 : 0,
+			arg->conv);
 }
 
 void	ft_print_args(t_list *args)
@@ -50,27 +54,22 @@ t_arg	*ft_argnew()
 	t_arg	*arg;
 
 	arg = ft_smemalloc(sizeof(t_arg), "ft_argnew");
-	arg->flags = ft_flagnew();
-	arg->width = 0;
-	arg->prec = 0;
-	arg->lflags = ft_lflagnew();
-	arg->conv = 0;
 	return (arg);
 }
 
-void	ft_argdel(t_arg *arg)
+int		ft_get_conv(t_arg *arg, char conv)
 {
-	free(arg->flags);
-	free(arg->lflags);
-	free(arg);
-}
-
-int		ft_isvalid_conv(char conv)
-{
-	return ((conv == 's' || conv == 'S' || conv == 'p' || conv == 'd' ||
-			conv == 'D' || conv == 'i' || conv == 'o' || conv == 'O' ||
-			conv == 'u' || conv == 'x' || conv == 'X' || conv == 'c' ||
-			conv == 'C') ? 1 : 0);
+	if (conv == 's' || conv == 'd' || conv == 'i' || conv == 'o' ||
+		conv == 'u' || conv == 'x' || conv == 'X' || conv == 'c' ||
+		conv == 'p')
+		return (conv);
+	else if (conv == 'D' || conv == 'C' || conv == 'S' || conv == 'O' ||
+			conv == 'U')
+	{
+		arg->lflags |= LF_L;
+		return (ft_tolower(conv));
+	}
+	return (0);
 }
 
 t_arg	*ft_parse_arg(char *str, int *to_cut)
@@ -89,11 +88,10 @@ t_arg	*ft_parse_arg(char *str, int *to_cut)
 	while (ft_isdigit(str[i]))
 		++i;
 	i += ft_parse_lflags(&str[i], arg);
-	if (ft_isvalid_conv(str[i]))
-		arg->conv = str[i];
-	else
+	arg->conv = ft_get_conv(arg, str[i]);
+	if (!arg->conv)
 	{
-		ft_argdel(arg);
+		free(arg);
 		return (NULL);
 	}
 	*to_cut = i;
@@ -111,17 +109,19 @@ char	*ft_create_args_list(t_list **list, char *format)
 	i = -1;
 	while (format[++i])
 	{
-		printf("%c\n", format[i]);
 		if (format[i] == '%')
 		{
 			if (!(arg = ft_parse_arg(&format[++i], &to_cut)))
 				return (NULL);
+			
+			//printf("leftover: %s\n", &format[i]);
+			//ft_print_arg(arg);
+			
 			to_remove = format;
 			format = ft_strcut(format, i, i + to_cut);
+			--i;
 			free(to_remove);
-			printf("format: %s\n", format);
 			ft_lstpush(list, ft_nodenew(arg, sizeof(t_arg)));
-			printf("left from [i]: %s\n", &format[i]);
 		}
 	}
 	return (format);
