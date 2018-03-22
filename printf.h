@@ -6,7 +6,7 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/07 17:36:21 by domelche          #+#    #+#             */
-/*   Updated: 2018/03/22 15:47:11 by domelche         ###   ########.fr       */
+/*   Updated: 2018/03/22 16:33:57 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 # define PRINTF_H
 
 # include <stdarg.h>
+# include <stddef.h>
+# include <stdint.h>
 # include <wchar.h>
 # include "libft/libft.h"
 # include <stdio.h>

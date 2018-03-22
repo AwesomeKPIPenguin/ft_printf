@@ -35,10 +35,12 @@ $(NAME): $(OBJ)
 clean:
 	@$(MAKE) clean -C libft/
 	@/bin/rm -f src/*.o
+	@$(MAKE) clean -C libft
 
 fclean: clean
 	@$(MAKE) fclean -C libft/
 	@/bin/rm -f $(NAME)
+	@$(MAKE) fclean -C libft
 
 test: $(OBJ)
 	@$(MAKE) -C libft/

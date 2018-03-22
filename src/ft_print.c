@@ -6,7 +6,7 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 17:09:42 by domelche          #+#    #+#             */
-/*   Updated: 2018/03/22 16:20:17 by domelche         ###   ########.fr       */
+/*   Updated: 2018/03/22 16:32:44 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ static void	ft_print_arg(t_arg *arg, va_list ap)
 		ft_print_arg_p(arg, ap);
 }
 
-void		ft_print(va_list *ap, char *format, t_list *args)
+void		ft_print(va_list ap, char *format, t_list *args)
 {
 	int 	i;
 
