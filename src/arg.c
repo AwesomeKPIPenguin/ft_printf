@@ -12,7 +12,7 @@
 
 #include "../printf.h"
 
-// debug
+// debug **********************************************************************
 
 void	ft_print_arg(t_arg *arg)
 {
@@ -47,7 +47,9 @@ void	ft_print_args(t_list *args)
 	}
 }
 
-// *****
+// ****************************************************************************
+
+
 
 t_arg	*ft_argnew()
 {
@@ -59,17 +61,22 @@ t_arg	*ft_argnew()
 
 int		ft_get_conv(t_arg *arg, char conv)
 {
+	char	res;
+
+	res = 0;
 	if (conv == 's' || conv == 'd' || conv == 'i' || conv == 'o' ||
 		conv == 'u' || conv == 'x' || conv == 'X' || conv == 'c' ||
 		conv == 'p')
-		return (conv);
+		res = conv;
 	else if (conv == 'D' || conv == 'C' || conv == 'S' || conv == 'O' ||
 			conv == 'U')
 	{
 		arg->lflags |= LF_L;
-		return (ft_tolower(conv));
+		res = ft_tolower(conv);
 	}
-	return (0);
+	if (res == 'x' || res == 'X' || res == 'u' || res == 'o')
+		arg->flags &= ~(F_PLUS | F_SPACE);
+	return (res);
 }
 
 t_arg	*ft_parse_arg(char *str, int *to_cut)
@@ -84,7 +91,10 @@ t_arg	*ft_parse_arg(char *str, int *to_cut)
 	while (ft_isdigit(str[i]))
 		++i;
 	if (str[i] == '.')
+	{
 		arg->prec = ft_atoi(&str[++i]);
+		arg->flags &= ~F_ZERO;
+	}
 	while (ft_isdigit(str[i]))
 		++i;
 	i += ft_parse_lflags(&str[i], arg);

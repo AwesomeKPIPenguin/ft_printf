@@ -36,16 +36,17 @@
 
 typedef struct		s_arg
 {
-	short			flags;
+	uint16_t		flags;
 	int				width;
 	int				prec;
-	unsigned char	lflags;
+	uint8_t			lflags;
 	char			conv;
 }					t_arg;
 
 int					ft_parse_lflags(char *str, t_arg *arg);
 
 int					ft_parse_flags(char *str, t_arg *arg);
+uint16_t			ft_getmask(char c);
 
 char				*ft_create_args_list(t_list **list, char *format);
 
