@@ -75,7 +75,14 @@ int		ft_get_conv(t_arg *arg, char conv)
 		res = ft_tolower(conv);
 	}
 	if (res == 'x' || res == 'X' || res == 'u' || res == 'o')
+	{
+		if (res == 'u')
+			arg->flags &= ~F_SHARP;
 		arg->flags &= ~(F_PLUS | F_SPACE);
+	}
+	else
+		arg->flags &= ~F_SHARP;
+	arg->flags &= ft_getmask(arg->conv);
 	return (res);
 }
 
@@ -136,18 +143,3 @@ char	*ft_create_args_list(t_list **list, char *format)
 	}
 	return (format);
 }
-
-//int		main(void)
-//{
-//	//int			i;
-//	t_list	*args;
-//	char	*str = ft_strdup("Hello, %i, Pisos! %#0+-125.455432jS, %d, %010.2X");
-//	//i = 0;
-//	//ft_print_arg(ft_parse_arg("#-+010.3lhllhld", &i));
-//	//printf("i: %d\n", i);
-//	str = ft_create_args_list(&args, str);
-//	ft_print_args(args);
-//	printf("str: %s\n", str);
-//
-//	return (1);
-//}

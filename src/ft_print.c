@@ -12,11 +12,22 @@
 
 #include "../printf.h"
 
+static int	ft_iszero(char *str)
+{
+	while (*str)
+	{
+		if (*str != ' ' && *str != '0')
+			return (0);
+		++str;
+	}
+	return (1);
+}
+
 char		*ft_handle_sharp(t_arg *arg, char *str)
 {
 	char	*res;
 
-	if ((arg->flags & F_SHARP & ft_getmask(arg->conv)) && *str != '0')
+	if ((arg->flags & F_SHARP) && !ft_iszero(str))
 	{
 		if (arg->conv == 'x')
 			res = ft_strjoin("0x", str);
@@ -30,25 +41,92 @@ char		*ft_handle_sharp(t_arg *arg, char *str)
 	return (str);
 }
 
+static void ft_strjoin_3(char *dst, char *str_0, char *str_1, char *str_2)
+{
+	int 	i;
+
+	i = 0;
+	if (str_0)
+	{
+		while (*str_0)
+			dst[i++] = *(str_0++);
+		free(str_0);
+	}
+	if (str_1)
+	{
+		while (*str_1)
+			dst[i++] = *(str_1++);
+		free(str_1);
+	}
+	if (str_2)
+	{
+		while (*str_2)
+			dst[i++] = *(str_2++);
+		free(str_2);
+	}
+}
+
+char		*ft_handle_width(t_arg *arg, char *str)
+{
+	char	*res;
+	char	*sharp_str;
+	char 	*pad_str;
+	char	fill_char;
+	int		pad_len;
+	int		len;
+	int		sharp_len;
+
+	len = ft_strlen(str);
+	sharp_str = NULL;
+	sharp_len = 0;
+	pad_str = NULL;
+	if (arg->flags & F_SHARP)
+	{
+		sharp_str = (arg->conv == 'o') ? ft_strdup("0") : ft_strdup("0X");
+		sharp_len = ft_strlen(sharp_str);
+	}
+	pad_len = arg->width - len - sharp_len;
+	if (pad_len > 0)
+	{
+		fill_char = (arg->flags & F_ZERO) ? '0' : ' ';
+		if (!(res = ft_memalloc((arg->width + 1) * sizeof(char))))
+			return (NULL);
+		if (!(pad_str = malloc((pad_len + 1) * sizeof(char))))
+			return (NULL);
+		pad_str = ft_memset(pad_str, fill_char, pad_len);
+		pad_str[pad_len] = 0;
+		if (*pad_str == '0')
+			ft_strjoin_3(res, sharp_str, pad_str, str);
+		else if (arg->flags & F_MINUS)
+			ft_strjoin_3(res, sharp_str, str, pad_str);
+		else
+			ft_strjoin_3(res, pad_str, sharp_str, str);
+	}
+	else if (sharp_str)
+	{
+		res = ft_strjoin(sharp_str, str);
+		free(sharp_str);
+		free(str);
+	}
+	return (res);
+}
+
 char		*ft_handle_prec(t_arg *arg, char *str)
 {
 	char	*res;
 	int		len;
 	int		sign;
 
-	if (!(F_ZERO & ft_getmask(arg->conv)))
-		return (str);
 	len = ft_strlen(str);
 	sign = (*str == '-') ? 1 : 0;
-	if (arg->prec > len)
-	{
-		if (!(res = malloc(arg->prec * sizeof(char))))
-			return (NULL);
-		res = ft_memset(&(res[sign]), '0', arg->prec - len);
-		res = ft_strcpy(&(res[arg->prec - len - 1]), &(str[sign]));
-		if (sign)
-			res[0] = '-';
-	}
+	if (!(F_ZERO & ft_getmask(arg->conv)) && arg->prec > len - sign)
+		return (str);
+	if (!(res = malloc(arg->prec * sizeof(char))))
+		return (NULL);
+	res = ft_memset(&(res[sign]), '0', arg->prec - len);
+	res = ft_strcpy(&(res[sign + arg->prec - len]), &(str[sign]));
+	if (sign)
+		res[0] = '-';
 	free(str);
 	return (res);
 }
@@ -57,36 +135,9 @@ char		*ft_handle_plus(t_arg *arg, char *str)
 {
 	char	*res;
 
-	if ((arg->flags & F_PLUS & ft_getmask(arg->conv)) && *str != '-')
+	if ((arg->flags & F_PLUS) && *str != '-')
 	{
 		res = ft_strjoin("+", str);
-		free(str);
-		str = res;
-	}
-	return (str);
-}
-
-
-char		*ft_handle_width(t_arg *arg, char *str)
-{
-	char	*res;
-	char	filler;
-	int		pad;
-	char	*pad_str;
-	int		len;
-
-	len = ft_strlen(str);
-	pad = arg->width - len;
-	if (pad > 0)	
-	{
-		filler = (arg->flags & F_ZERO & ft_getmask(arg->conv)) ? '0' : ' ';
-		if (!(res = malloc(arg->width * sizeof(char))))
-			return (NULL);
-		res = ft_memset(res, filler, arg->width);
-		if (arg->flags & F_MINUS)
-			res = ft_strcpy(res, str);
-		else
-			res = ft_strcpy(&(res[arg->width - len]), str);
 		free(str);
 		str = res;
 	}
@@ -100,7 +151,6 @@ char		*ft_handle_flags(t_arg *arg, char *str)
 	res = ft_strdup(str);
 	res = ft_handle_prec(arg, res);
 	res = ft_handle_plus(arg, res);
-	res = ft_handle_sharp(arg, res);
 	res = ft_handle_width(arg, res);
 }
 
@@ -122,14 +172,14 @@ static char	*ft_getstr_arg_u(t_arg *arg, unsigned long long data, int base)
 		return (ft_uitoa_base((unsigned int)data, base));
 }
 
-static void ft_print_arg_u(t_arg *arg, va_list ap)
+static void ft_print_arg_u(t_arg *arg, va_list *ap)
 {
 	unsigned long long	data;
 	int					base;
 	char				*str;
 	char				*to_free;
 
-	data = va_arg(ap, unsigned long long);
+	data = va_arg(*ap, unsigned long long);
 	base = 10;
 	if (arg->conv == 'x' || arg->conv == 'X')
 		base = 16;
@@ -146,46 +196,46 @@ static void ft_print_arg_u(t_arg *arg, va_list ap)
 	free(str);
 }
 
-static void ft_print_arg_i(t_arg *arg, va_list ap)
+static void ft_print_arg_i(t_arg *arg, va_list *ap)
 {
 	long long	data;
 	char		*str;
 
-	data = va_arg(ap, long long);
+	data = va_arg(*ap, long long);
 	if (arg->lflags & LF_LL)
-		str = ft_uitoa(data);
+		str = ft_itoa(data);
 	else if (arg->lflags & LF_L)
-		str = ft_uitoa((long)data);
+		str = ft_itoa((long)data);
 	else if (arg->lflags & LF_H)
-		str = ft_uitoa((short)data);
+		str = ft_itoa((short)data);
 	else if (arg->lflags & LF_HH)
-		str = ft_uitoa((char)data);
+		str = ft_itoa((char)data);
 	else if (arg->lflags & LF_J)
-		str = ft_uitoa((intmax_t)data);
+		str = ft_itoa((intmax_t)data);
 	else if (arg->lflags & LF_Z)
-		str = ft_uitoa((size_t)data); // <----------------------------------z
+		str = ft_itoa((size_t)data); // <----------------------------------z
 	else
-		str = ft_uitoa((int)data);
+		str = ft_itoa((int)data);
 	ft_putstr(str);
 	free(str);
 }
 
-static void	ft_print_arg_c(t_arg *arg, va_list ap)
+static void	ft_print_arg_c(t_arg *arg, va_list *ap)
 {
 	wint_t	data;
 
-	data = va_arg(ap, wint_t);
+	data = va_arg(*ap, wint_t);
 	if ((arg->lflags & LF_L) | (arg->lflags & LF_LL))
 		ft_putwchar(data);
 	else
 		ft_putchar((unsigned char)data);
 }
 
-static void	ft_print_arg_s(t_arg *arg, va_list ap)
+static void	ft_print_arg_s(t_arg *arg, va_list *ap)
 {
 	wchar_t	*data;
 
-	data = va_arg(ap, wchar_t i*);
+	data = va_arg(*ap, wchar_t *);
 	if (!data)
 		return (ft_putstr("(null)"));
 	if ((arg->lflags & LF_L) | (arg->lflags & LF_LL))
@@ -194,22 +244,23 @@ static void	ft_print_arg_s(t_arg *arg, va_list ap)
 		ft_putstr((char *)data);
 }
 
-static void	ft_print_arg_p(t_arg *arg, va_list ap)
+static void	ft_print_arg_p(t_arg *arg, va_list *ap)
 {
 	void	*data;
 	char	*str;
 	char	*to_free;
 
 	(void)arg;
-	data = va_arg(ap, void *);
+	data = va_arg(*ap, void *);
 	str = ft_uitoa_base((unsigned long long)data, 16);
 	to_free = str;
 	str = ft_strjoin("0x", str);
 	free(to_free);
 	ft_putstr(str);
+	free(str);
 }
 
-static void	ft_print_arg(t_arg *arg, va_list ap)
+static void	ft_print_arg(t_arg *arg, va_list *ap)
 {
 	if (arg->conv == 'd' || arg->conv == 'i')
 		ft_print_arg_i(arg, ap);
@@ -224,7 +275,7 @@ static void	ft_print_arg(t_arg *arg, va_list ap)
 		ft_print_arg_p(arg, ap);
 }
 
-void		ft_print(va_list ap, char *format, t_list *args)
+void		ft_print(va_list *ap, char *format, t_list *args)
 {
 	int 	i;
 
@@ -235,7 +286,7 @@ void		ft_print(va_list ap, char *format, t_list *args)
 			ft_putchar(format[i]);
 		else
 		{
-			ft_print_arg((t_arg *)args->content, *ap);
+			ft_print_arg((t_arg *)args->content, ap);
 			args = args->next;
 		}
 	}
