@@ -82,7 +82,7 @@ int		ft_get_conv(t_arg *arg, char conv)
 	}
 	else
 		arg->flags &= ~F_SHARP;
-	arg->flags &= ft_getmask(arg->conv);
+	arg->flags &= ft_getmask(res);
 	return (res);
 }
 

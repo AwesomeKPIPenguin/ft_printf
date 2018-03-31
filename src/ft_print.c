@@ -23,24 +23,6 @@ static int	ft_iszero(char *str)
 	return (1);
 }
 
-char		*ft_handle_sharp(t_arg *arg, char *str)
-{
-	char	*res;
-
-	if ((arg->flags & F_SHARP) && !ft_iszero(str))
-	{
-		if (arg->conv == 'x')
-			res = ft_strjoin("0x", str);
-		else if (arg->conv == 'X')
-			res = ft_strjoin("0X", str);
-		else
-			res = ft_strjoin("0", str);
-		free(str);
-		str = res;
-	}
-	return (str);
-}
-
 static void ft_strjoin_3(char *dst, char *str_0, char *str_1, char *str_2)
 {
 	int 	i;
@@ -48,21 +30,20 @@ static void ft_strjoin_3(char *dst, char *str_0, char *str_1, char *str_2)
 	i = 0;
 	if (str_0)
 	{
-		while (*str_0)
-			dst[i++] = *(str_0++);
+		ft_strcpy(dst, str_0);
+		i += ft_strlen(str_0);
 		free(str_0);
 	}
 	if (str_1)
 	{
-		while (*str_1)
-			dst[i++] = *(str_1++);
+		ft_strcpy(&(dst[i]), str_1);
+		i += ft_strlen(str_1);
 		free(str_1);
 	}
 	if (str_2)
 	{
-		while (*str_2)
-			dst[i++] = *(str_2++);
-		free(str_2);
+		ft_strcpy(&(dst[i]), str_2);
+		//free(str_2);              <--------------------- weird free ----------
 	}
 }
 
@@ -83,6 +64,8 @@ char		*ft_handle_width(t_arg *arg, char *str)
 	if (arg->flags & F_SHARP)
 	{
 		sharp_str = (arg->conv == 'o') ? ft_strdup("0") : ft_strdup("0X");
+		if (arg->conv == 'x')
+			sharp_str[1] = 'x';
 		sharp_len = ft_strlen(sharp_str);
 	}
 	pad_len = arg->width - len - sharp_len;
@@ -101,14 +84,16 @@ char		*ft_handle_width(t_arg *arg, char *str)
 			ft_strjoin_3(res, sharp_str, str, pad_str);
 		else
 			ft_strjoin_3(res, pad_str, sharp_str, str);
+		str = res;
 	}
 	else if (sharp_str)
 	{
 		res = ft_strjoin(sharp_str, str);
 		free(sharp_str);
 		free(str);
+		str = res;
 	}
-	return (res);
+	return (str);
 }
 
 char		*ft_handle_prec(t_arg *arg, char *str)
@@ -123,8 +108,9 @@ char		*ft_handle_prec(t_arg *arg, char *str)
 		return (str);
 	if (!(res = malloc(arg->prec * sizeof(char))))
 		return (NULL);
-	res = ft_memset(&(res[sign]), '0', arg->prec - len);
-	res = ft_strcpy(&(res[sign + arg->prec - len]), &(str[sign]));
+	ft_memset(&(res[sign]), '0', arg->prec - len + sign);
+	ft_strcpy(&(res[sign + arg->prec - len + 1]), &(str[sign])) -
+			arg->prec + len;
 	if (sign)
 		res[0] = '-';
 	free(str);
@@ -148,13 +134,14 @@ char		*ft_handle_flags(t_arg *arg, char *str)
 {
 	char	*res;
 
-	res = ft_strdup(str);
+	res = strdup(str);
 	res = ft_handle_prec(arg, res);
 	res = ft_handle_plus(arg, res);
 	res = ft_handle_width(arg, res);
+	return (res);
 }
 
-static char	*ft_getstr_arg_u(t_arg *arg, unsigned long long data, int base)
+static char	*ft_getdata_arg_u(t_arg *arg, unsigned long long data, int base)
 {
 	if (arg->lflags & LF_LL)
 		return (ft_uitoa_base(data, base));
@@ -172,7 +159,7 @@ static char	*ft_getstr_arg_u(t_arg *arg, unsigned long long data, int base)
 		return (ft_uitoa_base((unsigned int)data, base));
 }
 
-static void ft_print_arg_u(t_arg *arg, va_list *ap)
+char		*ft_getstr_arg_u(t_arg *arg, va_list *ap)
 {
 	unsigned long long	data;
 	int					base;
@@ -185,18 +172,17 @@ static void ft_print_arg_u(t_arg *arg, va_list *ap)
 		base = 16;
 	else if (arg->conv == 'o')
 		base = 8;
-	str = ft_getstr_arg_u(arg, data, base);
+	str = ft_getdata_arg_u(arg, data, base);
 	if (arg->conv == 'x')
 	{
 		to_free = str;
 		str = ft_strmap(str, (char (*)(char))ft_tolower);
 		free(to_free);
 	}
-	ft_putstr(str);
-	free(str);
+	return (str);
 }
 
-static void ft_print_arg_i(t_arg *arg, va_list *ap)
+char		*ft_getstr_arg_i(t_arg *arg, va_list *ap)
 {
 	long long	data;
 	char		*str;
@@ -213,25 +199,24 @@ static void ft_print_arg_i(t_arg *arg, va_list *ap)
 	else if (arg->lflags & LF_J)
 		str = ft_itoa((intmax_t)data);
 	else if (arg->lflags & LF_Z)
-		str = ft_itoa((size_t)data); // <----------------------------------z
+		str = ft_itoa((size_t)data); // <------------------------------------- z
 	else
 		str = ft_itoa((int)data);
-	ft_putstr(str);
-	free(str);
+	return (str);
 }
 
-static void	ft_print_arg_c(t_arg *arg, va_list *ap)
+char		*ft_getstr_arg_c(t_arg *arg, va_list *ap)
 {
 	wint_t	data;
 
-	data = va_arg(*ap, wint_t);
+	data = va_arg(*ap, int);
 	if ((arg->lflags & LF_L) | (arg->lflags & LF_LL))
 		ft_putwchar(data);
 	else
 		ft_putchar((unsigned char)data);
 }
 
-static void	ft_print_arg_s(t_arg *arg, va_list *ap)
+void		ft_getstr_arg_s(t_arg *arg, va_list *ap)
 {
 	wchar_t	*data;
 
@@ -244,7 +229,7 @@ static void	ft_print_arg_s(t_arg *arg, va_list *ap)
 		ft_putstr((char *)data);
 }
 
-static void	ft_print_arg_p(t_arg *arg, va_list *ap)
+char		*ft_getstr_arg_p(t_arg *arg, va_list *ap)
 {
 	void	*data;
 	char	*str;
@@ -256,23 +241,25 @@ static void	ft_print_arg_p(t_arg *arg, va_list *ap)
 	to_free = str;
 	str = ft_strjoin("0x", str);
 	free(to_free);
-	ft_putstr(str);
-	free(str);
+	return (str);
 }
 
 static void	ft_print_arg(t_arg *arg, va_list *ap)
 {
+	char	*str;
+
 	if (arg->conv == 'd' || arg->conv == 'i')
-		ft_print_arg_i(arg, ap);
+		str = ft_getstr_arg_i(arg, ap);
 	else if (arg->conv == 'u' || arg->conv == 'o' ||
 			arg->conv == 'x' || arg->conv == 'X')
-		ft_print_arg_u(arg, ap);
+		str = ft_getstr_arg_u(arg, ap);
 	else if (arg->conv == 'c')
-		ft_print_arg_c(arg, ap);
+		str = ft_getstr_arg_c(arg, ap);
 	else if (arg->conv == 's')
-		ft_print_arg_s(arg, ap);
-	else if (arg->conv == 'p')
-		ft_print_arg_p(arg, ap);
+		ft_getstr_arg_s(arg, ap);
+	else
+		str = ft_getstr_arg_p(arg, ap);
+	return (ft_putstr(ft_handle_flags(arg, str)));
 }
 
 void		ft_print(va_list *ap, char *format, t_list *args)

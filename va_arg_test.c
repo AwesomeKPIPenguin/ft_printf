@@ -15,8 +15,8 @@ static void	ft_va_arg_test(int arg_0, ...)
 	va_end(ap);
 }
 
-int 		main(void)
-{
-	ft_va_arg_test(0, 1, 2, 3);
-	return (0);
-}
+//int 		main(void)
+//{
+//	ft_va_arg_test(0, 1, 2, 3);
+//	return (0);
+//}
