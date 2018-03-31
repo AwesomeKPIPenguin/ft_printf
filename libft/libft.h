@@ -6,7 +6,7 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/25 15:12:40 by domelche          #+#    #+#             */
-/*   Updated: 2018/03/22 14:34:30 by domelche         ###   ########.fr       */
+/*   Updated: 2018/03/31 14:09:21 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include <string.h>
 # include <wchar.h>
 # include <stddef.h>
+# include <limits.h>
 
-# define ATOI_ULL_MAX 9223372036854775807
 # define BUFF_SIZE 1024
 
 typedef struct		s_file
@@ -67,7 +67,7 @@ char				*ft_strnstr(const char *haystack, const char *needle,
 						size_t len);
 int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
-int					ft_atoi(const char *str);
+long long			ft_atoi(const char *str);
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
 int					ft_isalnum(int c);
@@ -141,9 +141,9 @@ void				ft_putwstr_fd(const wchar_t *wstr, int fd);
 void				ft_putwendl(const wchar_t *wstr);
 void				ft_putwendl_fd(const wchar_t *wstr, int fd);
 
-char 				*ft_itoa(long long num);
-char 				*ft_itoa_base(long long num, int base);
-char 				*ft_uitoa(unsigned long long num);
-char 				*ft_uitoa_base(unsigned long long num, int base);
+char				*ft_itoa(long long num);
+char				*ft_itoa_base(long long num, int base);
+char				*ft_uitoa(unsigned long long num);
+char				*ft_uitoa_base(unsigned long long num, int base);
 
 #endif

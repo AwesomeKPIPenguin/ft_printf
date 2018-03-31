@@ -6,38 +6,28 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/26 18:49:36 by domelche          #+#    #+#             */
-/*   Updated: 2017/10/26 18:49:38 by domelche         ###   ########.fr       */
+/*   Updated: 2018/03/31 14:14:30 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*ft_atoi_cut(char *str, int *sign)
+static char	*ft_getstart(char *str, int *sign)
 {
 	int		i;
-	int		j;
-	char	*s;
-	char	*res;
 
 	i = 0;
-	s = ft_strdup(str);
-	while ((s[i] >= 9 && s[i] <= 13) || s[i] == 32)
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
-	*sign = (s[i] == '-') ? -1 : 1;
-	if (s[i] == '-' || s[i] == '+')
+	*sign = (str[i] == '-') ? -1 : 1;
+	if (str[i] == '-' || str[i] == '+')
 		i++;
-	while (s[i] == '0')
+	while (str[i] == '0')
 		i++;
-	j = i;
-	while (ft_isdigit(s[j]) && s[j])
-		j++;
-	s[j] = 0;
-	res = ft_strdup(&s[i]);
-	free(s);
-	return (res);
+	return (&(str[i]));
 }
 
-int			ft_atoi(const char *str)
+long long	ft_atoi(const char *str)
 {
 	char				*s;
 	int					sign;
@@ -45,16 +35,20 @@ int			ft_atoi(const char *str)
 	unsigned long long	res;
 	size_t				i;
 
-	res = 0;
-	s = ft_atoi_cut((char *)str, &sign);
-	str_len = ft_strlen(s);
-	i = 0;
-	while (s[i])
-		res = res * 10 + (s[i++] - '0');
-	free(s);
-	if ((res > ATOI_ULL_MAX || str_len > 19) && sign > 0)
-		return (-1);
-	if ((res > ATOI_ULL_MAX || str_len > 19) && sign < 0)
+	if (!str)
 		return (0);
-	return ((int)(res * sign));
+	res = 0;
+	s = ft_getstart((char *)str, &sign);
+	str_len = 0;
+	i = 0;
+	while (ft_isdigit(s[i]))
+	{
+		res = res * 10 + (s[i++] - '0');
+		++str_len;
+	}
+	if ((res > LONG_MAX || str_len > 19) && sign > 0)
+		return (-1);
+	if ((res - 1 > LONG_MAX || str_len > 19) && sign < 0)
+		return (0);
+	return ((long long)(res * sign));
 }

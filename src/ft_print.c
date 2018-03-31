@@ -6,22 +6,22 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 17:09:42 by domelche          #+#    #+#             */
-/*   Updated: 2018/03/22 16:32:44 by domelche         ###   ########.fr       */
+/*   Updated: 2018/03/31 17:23:48 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../printf.h"
 
-static int	ft_iszero(char *str)
-{
-	while (*str)
-	{
-		if (*str != ' ' && *str != '0')
-			return (0);
-		++str;
-	}
-	return (1);
-}
+//static int	ft_iszero(char *str)
+//{
+//	while (*str)
+//	{
+//		if (*str != ' ' && *str != '0')
+//			return (0);
+//		++str;
+//	}
+//	return (1);
+//}
 
 static void ft_strjoin_3(char *dst, char *str_0, char *str_1, char *str_2)
 {
@@ -109,8 +109,8 @@ char		*ft_handle_prec(t_arg *arg, char *str)
 	if (!(res = malloc(arg->prec * sizeof(char))))
 		return (NULL);
 	ft_memset(&(res[sign]), '0', arg->prec - len + sign);
-	ft_strcpy(&(res[sign + arg->prec - len + 1]), &(str[sign])) -
-			arg->prec + len;
+	(void)(ft_strcpy(&(res[sign + arg->prec - len + 1]), &(str[sign])) -
+			arg->prec + len);
 	if (sign)
 		res[0] = '-';
 	free(str);
@@ -205,7 +205,7 @@ char		*ft_getstr_arg_i(t_arg *arg, va_list *ap)
 	return (str);
 }
 
-char		*ft_getstr_arg_c(t_arg *arg, va_list *ap)
+void		ft_getstr_arg_c(t_arg *arg, va_list *ap)
 {
 	wint_t	data;
 
@@ -248,13 +248,14 @@ static void	ft_print_arg(t_arg *arg, va_list *ap)
 {
 	char	*str;
 
+	str = NULL;
 	if (arg->conv == 'd' || arg->conv == 'i')
 		str = ft_getstr_arg_i(arg, ap);
 	else if (arg->conv == 'u' || arg->conv == 'o' ||
 			arg->conv == 'x' || arg->conv == 'X')
 		str = ft_getstr_arg_u(arg, ap);
 	else if (arg->conv == 'c')
-		str = ft_getstr_arg_c(arg, ap);
+		ft_getstr_arg_c(arg, ap);
 	else if (arg->conv == 's')
 		ft_getstr_arg_s(arg, ap);
 	else

@@ -6,7 +6,7 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 16:33:08 by domelche          #+#    #+#             */
-/*   Updated: 2017/11/01 16:33:09 by domelche         ###   ########.fr       */
+/*   Updated: 2018/03/31 14:18:51 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 char		*ft_itoa(long long num)
 {
 	unsigned long long	unum;
-	int 				sign;
+	int					sign;
 
 	if (num < 0)
 	{

@@ -6,8 +6,18 @@
 
 int		main(void)
 {
-	//setlocale(LC_ALL, "");
-	wprintf("%10S\n", L"ファックキリン");
-//	ft_printf("%+.10i\n", -12324);
+	setlocale(LC_ALL, "");
+	
+	wchar_t	*wstr = L"\u0680\u0681\u0682\u0683";
+
+	printf("%S\n", wstr);
+	wstr = (unsigned char *)wstr;
+	for (int i = 0; i < 8; i++)
+		printf("%hhd; ", wstr[i]);
+	printf("\n");
+	wstr = (wchar_t *)wstr;
+	printf("%S\n", wstr);
+//	ft_printf("%S\n", wstr);
+	
 	return (0);
 }
