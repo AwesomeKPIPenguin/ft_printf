@@ -6,7 +6,7 @@
 #    By: domelche <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/25 15:13:01 by domelche          #+#    #+#              #
-#    Updated: 2018/03/22 14:50:07 by domelche         ###   ########.fr        #
+#    Updated: 2018/03/31 15:17:42 by domelche         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,12 +35,10 @@ $(NAME): $(OBJ)
 clean:
 	@$(MAKE) clean -C libft/
 	@/bin/rm -f src/*.o
-	@$(MAKE) clean -C libft
 
 fclean: clean
 	@$(MAKE) fclean -C libft/
 	@/bin/rm -f $(NAME)
-	@$(MAKE) fclean -C libft
 
 test: $(OBJ)
 	@$(MAKE) -C libft/

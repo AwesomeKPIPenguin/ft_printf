@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_wctoa.c                                         :+:      :+:    :+:   */
+/*   ft_write_wctoa.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/31 17:27:40 by domelche          #+#    #+#             */
-/*   Updated: 2018/03/31 18:07:32 by domelche         ###   ########.fr       */
+/*   Created: 2018/04/03 12:53:04 by domelche          #+#    #+#             */
+/*   Updated: 2018/04/03 15:43:05 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,40 @@
 static void	ft_convert(wchar_t wc, char *u_char, int size)
 {
 	if (size == 1)
-	{
 		u_char[0] = wc;
-		return ;
+	else if (size == 2)
+	{
+		u_char[0] = 0xC0 | ((0xFC0 & wc) >> 6);
+		u_char[1] = 0x80 | (0x3F & wc);
 	}
-	u_char[size - 1] = 0x80 | (0x3F & wc);
-	u_char[--size - 1] = 0xC0 | ((0xFC0 & wc) >> 6);
-	if (--size)
-		u_char[size - 1] = 0x80 | ((0x3F000 & wc) >> 12);
-	if (--size)
-		u_char[size - 1] = 0xF0 | ((0x3C0000 & wc) >> 18);
+	else if (size == 3)
+	{
+		u_char[0] = 0xE0 | ((0xF000 & wc) >> 12);
+		u_char[1] = 0x80 | ((0xFC0 & wc) >> 6);
+		u_char[2] = 0x80 | (0x3F & wc);
+	}
+	else
+	{
+		u_char[0] = 0xF0 | ((0x3C0000 & wc) >> 18);
+		u_char[1] = 0x80 | ((0x3F000 & wc) >> 12);
+		u_char[2] = 0x80 | ((0xFC0 & wc) >> 6);
+		u_char[3] = 0x80 | (0x3F & wc);
+	}
 }
 
-char		*ft_wctoa(wchar_t wc)
+void		ft_write_wctoa(wchar_t wc, char *str)
 {
-	char	*u_char;
 	int		size;
 
+	if (!str)
+		return ;
 	if (wc < 0x80)
 		size = 1;
 	else if (wc < 0x800)
 		size = 2;
-	else if (wc < 0x1000)
+	else if (wc < 0x10000)
 		size = 3;
-	else if (wc < 0x110000)
+	else
 		size = 4;
-	if (!(u_char = (char *)ft_memalloc(4 * sizeof(char))))
-		return (NULL);
-	ft_convert(wc, u_char, size);
-	return (u_char);
+	ft_convert(wc, str, size);
 }

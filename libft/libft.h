@@ -6,7 +6,7 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/25 15:12:40 by domelche          #+#    #+#             */
-/*   Updated: 2018/03/31 14:09:21 by domelche         ###   ########.fr       */
+/*   Updated: 2018/04/03 13:15:27 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ void				ft_warn(char *msg);
 int					ft_indexof_chr(char *str, int c);
 char				*ft_strcut(char *str, size_t from, size_t to);
 
+void				ft_write_wctoa(wchar_t wc, char *str);
+char				*ft_ustos(wchar_t *us);
 void				ft_putwchar(wint_t wc);
 void				ft_putwchar_fd(wint_t wc, int fd);
 void				ft_putwstr(const wchar_t *wstr);

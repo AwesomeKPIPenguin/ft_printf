@@ -6,7 +6,7 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 17:09:42 by domelche          #+#    #+#             */
-/*   Updated: 2018/03/31 17:23:48 by domelche         ###   ########.fr       */
+/*   Updated: 2018/04/03 16:26:40 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char		*ft_handle_prec(t_arg *arg, char *str)
 
 	len = ft_strlen(str);
 	sign = (*str == '-') ? 1 : 0;
-	if (!(F_ZERO & ft_getmask(arg->conv)) && arg->prec > len - sign)
+	if (!(F_ZERO & ft_getmask(arg->conv)) || arg->prec <= len - sign)
 		return (str);
 	if (!(res = malloc(arg->prec * sizeof(char))))
 		return (NULL);
@@ -205,28 +205,32 @@ char		*ft_getstr_arg_i(t_arg *arg, va_list *ap)
 	return (str);
 }
 
-void		ft_getstr_arg_c(t_arg *arg, va_list *ap)
+char		*ft_getstr_arg_c(t_arg *arg, va_list *ap)
 {
 	wint_t	data;
+	char	*str;
 
 	data = va_arg(*ap, int);
+	if (!(str = (char *)ft_memalloc(5 * sizeof(char))))
+		return (NULL);
 	if ((arg->lflags & LF_L) | (arg->lflags & LF_LL))
-		ft_putwchar(data);
+		ft_write_wctoa(data, str);
 	else
-		ft_putchar((unsigned char)data);
+		str[0] = (char)data;
+	return (str);
 }
 
-void		ft_getstr_arg_s(t_arg *arg, va_list *ap)
+char		*ft_getstr_arg_s(t_arg *arg, va_list *ap)
 {
 	wchar_t	*data;
 
 	data = va_arg(*ap, wchar_t *);
 	if (!data)
-		return (ft_putstr("(null)"));
+		return (ft_strdup("(null)"));
 	if ((arg->lflags & LF_L) | (arg->lflags & LF_LL))
-		ft_putwstr(data);
+		return (ft_ustos(data));
 	else
-		ft_putstr((char *)data);
+		return (ft_strdup((char *)data));
 }
 
 char		*ft_getstr_arg_p(t_arg *arg, va_list *ap)
@@ -255,9 +259,9 @@ static void	ft_print_arg(t_arg *arg, va_list *ap)
 			arg->conv == 'x' || arg->conv == 'X')
 		str = ft_getstr_arg_u(arg, ap);
 	else if (arg->conv == 'c')
-		ft_getstr_arg_c(arg, ap);
+		str = ft_getstr_arg_c(arg, ap);
 	else if (arg->conv == 's')
-		ft_getstr_arg_s(arg, ap);
+		str = ft_getstr_arg_s(arg, ap);
 	else
 		str = ft_getstr_arg_p(arg, ap);
 	return (ft_putstr(ft_handle_flags(arg, str)));
