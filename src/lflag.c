@@ -12,57 +12,43 @@
 
 #include "../printf.h"
 
-static int	ft_parse_lflags_l(char *str, t_arg *arg, int *i)
+static char	*ft_parse_lflags_l(char *str, t_arg *arg)
 {
-	if (str[*i] == 'l')
+	if (*(str + 1) == 'l')
 	{
-		if (str[*i + 1] == 'l')
-		{
-			arg->lflags |= LF_LL;
-			++(*i);
-		}
-		else
-			arg->lflags |= LF_L;
-		return (1);
+		arg->lflags |= LF_LL;
+		++str;
 	}
 	else
-		return (0);
+		arg->lflags |= LF_L;
+	return (str);
 }
 
-static int	ft_parse_lflags_h(char *str, t_arg *arg, int *i)
+static char	*ft_parse_lflags_h(char *str, t_arg *arg)
 {
-	if (str[*i] == 'h')
+	if (*(str + 1) == 'h')
 	{
-		if (str[*i + 1] == 'h')
-		{
-			arg->lflags |= LF_HH;
-			++(*i);
-		}
-		else
-			arg->lflags |= LF_H;
-		return (1);
+		arg->lflags |= LF_HH;
+		++str;
 	}
 	else
-		return (0);
+		arg->lflags |= LF_H;
+	return (str);
 }
 
-int			ft_parse_lflags(char *str, t_arg *arg)
+char		*ft_parse_lflags(char *str, t_arg *arg)
 {
-	int		i;
-
-	i = -1;
-	while (++i > -1)
+	while (1)
 	{
-		if (ft_parse_lflags_l(str, arg, &i))
-			;
-		else if (ft_parse_lflags_h(str, arg, &i))
-			;
-		else if (str[i] == 'j')
+		if (*str == 'l')
+			ft_parse_lflags_l(str, arg);
+		else if (*str == 'h')
+			ft_parse_lflags_h(str, arg);
+		else if (*str == 'j')
 			arg->lflags |= LF_J;
-		else if (str[i] == 'z')
+		else if (*str == 'z')
 			arg->lflags |= LF_Z;
 		else
-			return (i);
+			return (str);
 	}
-	return (0);
 }

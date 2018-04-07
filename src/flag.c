@@ -12,22 +12,19 @@
 
 #include "../printf.h"
 
-int			ft_parse_flags(char *str, t_arg *arg)
+char		*ft_parse_flags(char *str, t_arg *arg)
 {
-	int		i;
-
-	i = 0;
 	while (1)
 	{
-		if (str[i] == '#')
+		if (*str == '#')
 			arg->flags |= F_SHARP;
-		else if (str[i] == '0')
+		else if (*str == '0')
 			arg->flags |= F_ZERO;
-		else if (str[i] == '-')
+		else if (*str == '-')
 			arg->flags |= F_MINUS;
-		else if (str[i] == '+')
+		else if (*str == '+')
 			arg->flags |= F_PLUS;
-		else if (str[i] == ' ')
+		else if (*str == ' ')
 			arg->flags |= F_SPACE;
 		else
 		{
@@ -35,9 +32,9 @@ int			ft_parse_flags(char *str, t_arg *arg)
 				arg->flags &= ~F_ZERO;
 			if (arg->flags & F_PLUS)
 				arg->flags &= ~F_SPACE;
-			return (i);
+			return (str);
 		}
-		i++;
+		++str;
 	}
 }
 

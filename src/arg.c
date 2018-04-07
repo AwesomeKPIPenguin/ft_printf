@@ -55,7 +55,7 @@ t_arg	*ft_argnew()
 {
 	t_arg	*arg;
 
-	arg = ft_smemalloc(sizeof(t_arg), "ft_argnew");
+	arg = (t_arg *)ft_memalloc(sizeof(t_arg));
 	return (arg);
 }
 
@@ -86,60 +86,25 @@ int		ft_get_conv(t_arg *arg, char conv)
 	return (res);
 }
 
-t_arg	*ft_parse_arg(char *str, int *to_cut)
+char	*ft_getarg(t_arg *arg, char *format)
 {
-	t_arg	*arg;
-	int		i;
-
-	arg = ft_argnew();
-	i = 0;
-	i += ft_parse_flags(str, arg);
-	arg->width = ft_atoi(&str[i]);
-	while (ft_isdigit(str[i]))
-		++i;
-	if (str[i] == '.')
+	format = ft_parse_flags(format, arg);
+	arg->width = ft_atoi(format);
+	while (ft_isdigit(*format))
+		++format;
+	if (*format == '.')
 	{
-		arg->prec = ft_atoi(&str[++i]);
+		arg->prec = ft_atoi(++format);
 		arg->flags &= ~F_ZERO;
 	}
-	while (ft_isdigit(str[i]))
-		++i;
-	i += ft_parse_lflags(&str[i], arg);
-	arg->conv = ft_get_conv(arg, str[i]);
+	while (ft_isdigit(*format))
+		++format;
+	format = ft_parse_lflags(format, arg);
+	arg->conv = ft_get_conv(arg, *format);
 	if (!arg->conv)
 	{
 		free(arg);
 		return (NULL);
 	}
-	*to_cut = i;
-	return (arg);
-}
-
-char	*ft_create_args_list(t_list **list, char *format)
-{
-	t_arg	*arg;
-	char 	*to_remove;
-	int		i;
-	int 	to_cut;
-	
-	*list = NULL;
-	i = -1;
-	while (format[++i])
-	{
-		if (format[i] == '%')
-		{
-			if (!(arg = ft_parse_arg(&format[++i], &to_cut)))
-				return (NULL);
-			
-			//printf("leftover: %s\n", &format[i]);
-			//ft_print_arg(arg);
-			
-			to_remove = format;
-			format = ft_strcut(format, i, i + to_cut);
-			--i;
-			free(to_remove);
-			ft_lstpush(list, ft_nodenew(arg, sizeof(t_arg)));
-		}
-	}
-	return (format);
+	return (++format);
 }

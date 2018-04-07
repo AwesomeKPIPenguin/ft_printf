@@ -17,6 +17,7 @@ int		ft_printf(const char *format, ...)
 	va_list ap;
 	t_list	*args;
 	char 	*str;
+	int 	res;
 
 	if (!ft_strchr(format, '%'))
 	{
@@ -25,9 +26,17 @@ int		ft_printf(const char *format, ...)
 	}
 	va_start(ap, format);
 	str = ft_strdup(format);
-	if (!(str = ft_create_args_list(&args, str)))
-		return (0);
-	ft_print(&ap, str, args);
+	res = 0;
+	while (str && *str)
+	{
+		if (*str != '%')
+		{
+			ft_putchar(*(str++));
+			++res;
+		}
+		else
+			str = ft_putarg(++str, &ap, &res);
+	}
 	va_end(ap);
-	return (1);
+	return (res);
 }

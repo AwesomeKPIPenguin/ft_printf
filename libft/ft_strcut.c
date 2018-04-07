@@ -37,8 +37,9 @@ char		*ft_strcut(char *str, size_t from, size_t to)
 		ft_swap_size_t(&from, &to);
 	i = 0;
 	j = 0;
-	strnew = (char *)ft_smemalloc(sizeof(char) *
-				(ft_strlen(str) - (to - from + 1)) + 1, "ft_strcut");
+	if (!(strnew = (char *)malloc(sizeof(char) *
+		(ft_strlen(str) - (to - from + 1) + 1))))
+		return (NULL);
 	while (str[i])
 	{
 		if (i < from || i > to)

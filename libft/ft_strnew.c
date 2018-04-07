@@ -12,15 +12,16 @@
 
 #include "libft.h"
 
-char	*ft_strnew(size_t size)
+char	*ft_strnew(size_t size, char c)
 {
 	char	*str;
 	size_t	i;
 
 	if (!(str = (char *)malloc(size + 1)))
 		return (NULL);
+	str[size] = 0;
 	i = 0;
-	while (i <= size)
-		str[i++] = 0;
+	while (i < size)
+		str[i++] = c;
 	return (str);
 }

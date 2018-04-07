@@ -78,7 +78,7 @@ int					ft_tolower(int c);
 
 void				*ft_memalloc(size_t size);
 void				ft_memdel(void **ap);
-char				*ft_strnew(size_t size);
+char				*ft_strnew(size_t size, char c);
 void				ft_strdel(char **as);
 void				ft_strclr(char *s);
 void				ft_striter(char *s, void (*f)(char *));
