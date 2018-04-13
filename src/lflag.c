@@ -6,7 +6,7 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/07 17:35:39 by domelche          #+#    #+#             */
-/*   Updated: 2018/03/22 13:11:34 by domelche         ###   ########.fr       */
+/*   Updated: 2018/04/13 16:26:50 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,15 @@ char		*ft_parse_lflags(char *str, t_arg *arg)
 	while (1)
 	{
 		if (*str == 'l')
-			ft_parse_lflags_l(str, arg);
+			str = ft_parse_lflags_l(str, arg);
 		else if (*str == 'h')
-			ft_parse_lflags_h(str, arg);
+			str = ft_parse_lflags_h(str, arg);
 		else if (*str == 'j')
 			arg->lflags |= LF_J;
 		else if (*str == 'z')
 			arg->lflags |= LF_Z;
 		else
 			return (str);
+		++str;
 	}
 }

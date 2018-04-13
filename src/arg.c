@@ -6,7 +6,7 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/07 17:34:31 by domelche          #+#    #+#             */
-/*   Updated: 2018/03/31 17:13:34 by domelche         ###   ########.fr       */
+/*   Updated: 2018/04/13 16:03:36 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int		ft_get_conv(t_arg *arg, char conv)
 	res = 0;
 	if (conv == 's' || conv == 'd' || conv == 'i' || conv == 'o' ||
 		conv == 'u' || conv == 'x' || conv == 'X' || conv == 'c' ||
-		conv == 'p')
+		conv == 'p' || conv == '%')
 		res = conv;
 	else if (conv == 'D' || conv == 'C' || conv == 'S' || conv == 'O' ||
 			conv == 'U')

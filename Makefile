@@ -6,13 +6,13 @@
 #    By: domelche <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/25 15:13:01 by domelche          #+#    #+#              #
-#    Updated: 2018/03/31 15:17:42 by domelche         ###   ########.fr        #
+#    Updated: 2018/04/13 15:52:10 by domelche         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
 
-SRCS = $(wildcard src/*.c test.c)
+SRCS = $(wildcard src/*.c libft/*.c)
 
 OBJ = $(SRCS:.c=.o)
 
@@ -29,7 +29,6 @@ CC = gcc
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@$(MAKE) -C libft/
 	@ar rc $(NAME) $(OBJ)
 
 clean:
@@ -37,7 +36,6 @@ clean:
 	@/bin/rm -f src/*.o
 
 fclean: clean
-	@$(MAKE) fclean -C libft/
 	@/bin/rm -f $(NAME)
 
 test: $(OBJ)

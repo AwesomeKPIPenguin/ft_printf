@@ -1,7 +1,14 @@
-
-//
-// Created by Dimon on 07.04.2018.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putarg.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/04/13 15:54:11 by domelche          #+#    #+#             */
+/*   Updated: 2018/04/13 16:05:53 by domelche         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../printf.h"
 
@@ -9,7 +16,7 @@ static char	*ft_handle_flags(t_arg *arg, char *str)
 {
 	char	*res;
 
-	res = strdup(str);
+	res = ft_strdup(str);
 	res = ft_handle_prec(arg, res);
 	res = ft_handle_plus(arg, res);
 	res = ft_handle_width(arg, res);
@@ -18,7 +25,9 @@ static char	*ft_handle_flags(t_arg *arg, char *str)
 
 static char *ft_argtoa(t_arg *arg, va_list *ap)
 {
-	if (arg->conv == 'd' || arg->conv == 'i')
+	if (arg->conv == '%')
+		return (ft_strdup("%"));
+	else if (arg->conv == 'd' || arg->conv == 'i')
 		return (ft_getstr_arg_i(arg, ap));
 	else if (arg->conv == 'u' || arg->conv == 'o' ||
 			 arg->conv == 'x' || arg->conv == 'X')
