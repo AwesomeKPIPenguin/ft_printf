@@ -114,9 +114,9 @@ char		*ft_handle_plus(t_arg *arg, char *str)
 {
 	char	*res;
 
-	if ((arg->flags & F_PLUS) && *str != '-')
+	if ((arg->flags & (F_PLUS | F_SPACE)) && *str != '-')
 	{
-		res = ft_strjoin("+", str);
+		res = ft_strjoin((arg->flags & F_PLUS) ? "+" : " ", str);
 		free(str);
 		str = res;
 	}

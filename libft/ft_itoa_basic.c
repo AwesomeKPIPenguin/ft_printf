@@ -14,7 +14,7 @@
 **	function ft_itoa_basic is strongly NOT recommended for straight usage,
 **	because all validation is placed in "wrapping" functions, which are
 **	recommended to use: ft_itoa, ft_itoa_base, ft_uitoa, ft_uitoa_base;
-**	otherwise, in case of not valid arguments, undefined behavior is expected
+**	otherwise, in case of invalid arguments, undefined behavior is expected
 */
 
 #include "libft.h"
@@ -40,7 +40,8 @@ char		*ft_itoa_basic(unsigned long long num, int sign, int base)
 	char	*str;
 
 	i = 31;
-	str = (char *)ft_smemalloc(sizeof(char) * 33, "ft_itoa_basic");
+	if (!(str = (char *)ft_memalloc(sizeof(char) * 33)))
+		return (NULL);
 	str[i] = '0';
 	while (num)
 	{

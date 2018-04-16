@@ -21,6 +21,13 @@
 # include "libft/libft.h"
 # include <stdio.h>
 
+/*
+**	Bits' positions in mask:
+**
+**	|#0+- |
+**	|00000|000 00000000
+*/
+
 # define F_SHARP	0x8000
 # define F_ZERO		0x4000
 # define F_MINUS	0x2000

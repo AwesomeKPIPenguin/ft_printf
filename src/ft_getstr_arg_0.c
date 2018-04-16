@@ -43,6 +43,10 @@ char		*ft_getstr_arg_u(t_arg *arg, va_list *ap)
 		str = ft_strmap(str, (char (*)(char))ft_tolower);
 		free(to_free);
 	}
+	if (!data)
+		arg->flags &= ~F_SHARP;
+	if (!data && !arg->prec)
+		*str = 0;
 	return (str);
 }
 
@@ -66,6 +70,8 @@ char		*ft_getstr_arg_i(t_arg *arg, va_list *ap)
 		str = ft_itoa((size_t)data); // <------------------------------------- z
 	else
 		str = ft_itoa((int)data);
+	if (!data && !arg->prec)
+		*str = 0;
 	return (str);
 }
 
@@ -81,18 +87,26 @@ char		*ft_getstr_arg_c(t_arg *arg, va_list *ap)
 		ft_write_wctoa(data, str);
 	else
 		str[0] = (char)data;
+	if (!*str)
+		str = ft_strcpy(str, "^@");
 	return (str);
 }
 
 char		*ft_getstr_arg_s(t_arg *arg, va_list *ap)
 {
 	wchar_t	*data;
+	char	*res;
+	int 	len;
 
 	data = va_arg(*ap, wchar_t *);
 	if (!data)
-		return (ft_strdup("(null)"));
+		res = ft_strdup("(null)");
 	if ((arg->lflags & LF_L) | (arg->lflags & LF_LL))
-		return (ft_ustos(data));
+		res = ft_ustos(data);
 	else
-		return (ft_strdup((char *)data));
+		res = ft_strdup((char *)data);
+	len = ft_strlen(res);
+	if (arg->prec < len)
+		res[arg->prec] = 0;
+	return (res);
 }
