@@ -12,6 +12,23 @@
 
 #include "../printf.h"
 
+static void ft_fix_sign(t_arg *arg, char *str)
+{
+	int		i;
+
+	i = 0;
+	if ((arg->conv == 'd' || arg->conv == 'i') && *str == '0')
+	{
+		while (str[i] == '0')
+			++i;
+		if (str[i] == '-' || str[i] == '+')
+		{
+			str[0] = str[i];
+			str[i] = '0';
+		}
+	}
+}
+
 static char	*ft_handle_flags(t_arg *arg, char *str)
 {
 	char	*res;
@@ -46,11 +63,16 @@ char	*ft_putarg(char *format, va_list *ap, int *res)
 	char	*str;
 
 	arg = ft_argnew();
-	if (!(format = ft_getarg(arg, format)))
-		return (NULL);
-	str = ft_argtoa(arg, ap);
-	str = ft_handle_flags(arg, str);
-	*res += ft_strlen(str);
-	ft_putstr(str);
+	format = ft_getarg(arg, format);
+	if (arg->width != -1)
+	{
+		str = ft_argtoa(arg, ap);
+		str = ft_handle_flags(arg, str);
+		ft_fix_sign(arg, str);
+		*res += ft_strlen(str);
+		ft_putstr(str);
+	}
+	else
+		free(arg);
 	return (format);
 }

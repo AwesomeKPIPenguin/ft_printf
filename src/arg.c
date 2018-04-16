@@ -103,8 +103,8 @@ char	*ft_getarg(t_arg *arg, char *format)
 	arg->conv = ft_get_conv(arg, *format);
 	if (!arg->conv)
 	{
-		free(arg);
-		return (NULL);
+		arg->width = -1;
+		return (format);
 	}
 	return (++format);
 }

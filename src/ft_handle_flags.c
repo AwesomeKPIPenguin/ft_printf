@@ -99,10 +99,10 @@ char		*ft_handle_prec(t_arg *arg, char *str)
 	sign = (*str == '-') ? 1 : 0;
 	if (!(F_ZERO & ft_getmask(arg->conv)) || arg->prec <= len - sign)
 		return (str);
-	if (!(res = malloc(arg->prec * sizeof(char))))
+	if (!(res = malloc((arg->prec + sign) * sizeof(char))))
 		return (NULL);
 	ft_memset(&(res[sign]), '0', arg->prec - len + sign);
-	(void)(ft_strcpy(&(res[sign + arg->prec - len]), &(str[sign])) -
+	(void)(ft_strcpy(&(res[2 * sign + arg->prec - len]), &(str[sign])) -
 		   arg->prec + len);
 	if (sign)
 		res[0] = '-';

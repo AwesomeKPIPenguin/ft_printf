@@ -3,13 +3,13 @@
 
 int 	main(void)
 {
-	char	*format = "das ist% d;\n";
-	int 	d = 42;
+	char	*format = "%Z\n";
+	int 	d = -42;
 	char	*s = "pisos";
-	char	c = NULL;
+	char	c = 0;
 
 	ft_putendl("mine\n || \n \\/ \nright\n");
-	ft_printf(format, d);
-	printf(format, d);
+	ft_printf(format);
+	printf(format);
 	return (0);
 }
