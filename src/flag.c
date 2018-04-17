@@ -44,7 +44,7 @@ uint16_t	ft_getmask(char c)
 		return (0x7800);
 	else if (c == 'o' || c == 'x' || c == 'X')
 		return (0xE000);
-	else if (c == 'u')
+	else if (c == 'u' || c == 'p')
 		return (0x6000);
 	else
 		return (0x2000);

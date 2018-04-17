@@ -12,50 +12,12 @@
 
 #include "../printf.h"
 
-// debug **********************************************************************
-
-void	ft_print_arg(t_arg *arg)
-{
-	if (!arg)
-	{
-		printf("\n(null)\n\n");
-		return ;
-	}
-	printf("\n{\n\tflags:\n\t{\n\t\t'#0-+ '\n\t\t %d%d%d%d%d\n\t}\n\t\
-width: %d\n\tprecision: %d\n\t\
-length flags:\n\t{\n\t\tl  ll h  hh j  z\n\t\t%d  %d  %d  %d  %d  %d\n\t}\n\t\
-conversion: %c\n}\n\n",
-			(arg->flags & F_SHARP) ? 1 : 0, (arg->flags & F_ZERO) ? 1 : 0,
-			(arg->flags & F_MINUS) ? 1 : 0, (arg->flags & F_PLUS) ? 1 : 0, 
-			(arg->flags & F_SPACE) ? 1 : 0,
-			arg->width, arg->prec,
-			(arg->lflags & LF_L) ? 1 : 0, (arg->lflags & LF_LL) ? 1 : 0,
-			(arg->lflags & LF_H) ? 1 : 0, (arg->lflags & LF_HH) ? 1 : 0,
-			(arg->lflags & LF_J) ? 1 : 0, (arg->lflags & LF_Z) ? 1 : 0,
-			arg->conv);
-}
-
-void	ft_print_args(t_list *args)
-{
-	t_list	*node;
-
-	node = args;
-	while (node)
-	{
-		ft_print_arg((t_arg *)node->content);
-		node = node->next;
-	}
-}
-
-// ****************************************************************************
-
-
-
 t_arg	*ft_argnew()
 {
 	t_arg	*arg;
 
 	arg = (t_arg *)ft_memalloc(sizeof(t_arg));
+	arg->prec = -1;
 	return (arg);
 }
 

@@ -16,6 +16,7 @@ int		ft_printf(const char *format, ...)
 {
 	va_list ap;
 	char 	*str;
+	char	*to_free;
 	int 	res;
 
 	if (!ft_strchr(format, '%'))
@@ -25,9 +26,9 @@ int		ft_printf(const char *format, ...)
 	}
 	va_start(ap, format);
 	str = ft_strdup(format);
+	to_free = str;
 	res = 0;
 	while (str && *str)
-	{
 		if (*str != '%')
 		{
 			ft_putchar(*(str++));
@@ -35,7 +36,7 @@ int		ft_printf(const char *format, ...)
 		}
 		else
 			str = ft_putarg(++str, &ap, &res);
-	}
 	va_end(ap);
+	free(to_free);
 	return (res);
 }

@@ -40,6 +40,18 @@ static char	*ft_handle_flags(t_arg *arg, char *str)
 	return (res);
 }
 
+static void	ft_handle_nullchar(t_arg *arg, char *str, int *res)
+{
+	int 	len;
+
+	str[0] = -1;
+	str = ft_handle_flags(arg, str);
+	len = ft_strlen(str);
+	*res += len;
+	ft_strrplc(str, -1, 0);
+	write(1, str, len);
+}
+
 static char *ft_argtoa(t_arg *arg, va_list *ap)
 {
 	if (arg->conv == '%')
@@ -67,10 +79,15 @@ char	*ft_putarg(char *format, va_list *ap, int *res)
 	if (arg->width != -1)
 	{
 		str = ft_argtoa(arg, ap);
-		str = ft_handle_flags(arg, str);
-		ft_fix_sign(arg, str);
-		*res += ft_strlen(str);
-		ft_putstr(str);
+		if (arg->conv == 'c' && !*str)
+			ft_handle_nullchar(arg, str, res);
+		else
+		{
+			str = ft_handle_flags(arg, str);
+			ft_fix_sign(arg, str);
+			*res += ft_strlen(str);
+			ft_putstr(str);
+		}
 	}
 	else
 		free(arg);

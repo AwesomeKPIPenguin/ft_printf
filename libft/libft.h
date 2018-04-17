@@ -133,6 +133,7 @@ void				ft_error(char *msg);
 void				ft_warn(char *msg);
 int					ft_indexof_chr(char *str, int c);
 char				*ft_strcut(char *str, size_t from, size_t to);
+void				ft_strrplc(char *str, char find, char put);
 
 void				ft_write_wctoa(wchar_t wc, char *str);
 char				*ft_ustos(wchar_t *us);

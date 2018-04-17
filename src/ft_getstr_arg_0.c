@@ -87,8 +87,6 @@ char		*ft_getstr_arg_c(t_arg *arg, va_list *ap)
 		ft_write_wctoa(data, str);
 	else
 		str[0] = (char)data;
-	if (!*str)
-		str = ft_strcpy(str, "^@");
 	return (str);
 }
 
@@ -101,12 +99,12 @@ char		*ft_getstr_arg_s(t_arg *arg, va_list *ap)
 	data = va_arg(*ap, wchar_t *);
 	if (!data)
 		res = ft_strdup("(null)");
-	if ((arg->lflags & LF_L) | (arg->lflags & LF_LL))
+	else if ((arg->lflags & LF_L) | (arg->lflags & LF_LL))
 		res = ft_ustos(data);
 	else
 		res = ft_strdup((char *)data);
 	len = ft_strlen(res);
-	if (arg->prec < len)
+	if (arg->prec < len && arg->prec != -1)
 		res[arg->prec] = 0;
 	return (res);
 }
