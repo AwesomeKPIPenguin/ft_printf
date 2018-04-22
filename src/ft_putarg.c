@@ -77,20 +77,24 @@ char	*ft_putarg(char *format, va_list *ap, int *res)
 
 	arg = ft_argnew();
 	format = ft_getarg(arg, format);
-	if (arg->width != -1)
+	if (!ft_isvalid_conv(arg->conv))
 	{
-		str = ft_argtoa(arg, ap);
-		if (arg->conv == 'c' && !*str)
-			ft_handle_nullchar(arg, str, res);
-		else
-		{
-			str = ft_handle_flags(arg, str);
-			ft_fix_sign(arg, str);
-			*res += ft_strlen(str);
-			ft_putstr(str);
-		}
+		if (!(str = (char *)malloc(2 * sizeof(char))))
+			return (NULL);
+		str[0] = arg->conv;
+		str[1] = 0;
+		arg->conv = 'c';
 	}
 	else
-		free(arg);
+		str = ft_argtoa(arg, ap);
+	if (arg->conv == 'c' && !*str)
+		ft_handle_nullchar(arg, str, res);
+	else
+	{
+		str = ft_handle_flags(arg, str);
+		ft_fix_sign(arg, str);
+		*res += ft_strlen(str);
+		ft_putstr(str);
+	}
 	return (format);
 }

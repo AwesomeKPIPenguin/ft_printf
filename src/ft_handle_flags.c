@@ -32,7 +32,7 @@ static void ft_strjoin_3(char *dst, char *str_0, char *str_1, char *str_2)
 	if (str_2)
 	{
 		ft_strcpy(&(dst[i]), str_2);
-		//free(str_2);//              <--------------------- weird free ----------
+		//free(str_2);//              <--------------------- weird free --------
 	}
 }
 
@@ -98,7 +98,7 @@ char		*ft_handle_prec(t_arg *arg, char *str)
 	len = ft_strlen(str);
 	sign = (*str == '-') ? 1 : 0;
 	if (!(F_ZERO & ft_getmask(arg->conv)) || arg->conv == 'c' ||
-		arg->conv == 's' || arg->prec <= len - sign)
+		arg->conv == 's' || arg->conv == '%' || arg->prec <= len - sign)
 		return (str);
 	if (!(res = malloc((arg->prec + sign) * sizeof(char))))
 		return (NULL);

@@ -21,15 +21,20 @@ t_arg	*ft_argnew()
 	return (arg);
 }
 
-int		ft_get_conv(t_arg *arg, char conv)
+int 	ft_isvalid_conv(char c)
+{
+	return (c == 's' || c == 'd' || c == 'i' || c == 'o' ||
+			c == 'u' || c == 'x' || c == 'X' || c == 'c' ||
+			c == 'p' || c == '%' || c == 'D' || c == 'C' ||
+			c == 'S' || c == 'O' || c == 'U');
+}
+
+int		ft_getconv(t_arg *arg, char conv)
 {
 	char	res;
 
-	res = 0;
-	if (conv == 's' || conv == 'd' || conv == 'i' || conv == 'o' ||
-		conv == 'u' || conv == 'x' || conv == 'X' || conv == 'c' ||
-		conv == 'p' || conv == '%' || conv == 'D' || conv == 'C' ||
-		conv == 'S' || conv == 'O' || conv == 'U')
+	res = conv;
+	if (ft_isvalid_conv(conv))
 		res = (conv != 'X') ? ft_tolower(conv) : conv;
 	if (ft_isupper(conv) && conv != 'X')
 		arg->lflags |= LF_L;
@@ -44,18 +49,13 @@ char	*ft_getarg(t_arg *arg, char *format)
 	while (ft_isdigit(*format))
 		++format;
 	if (*format == '.')
-	{
 		arg->prec = ft_atoi(++format);
-		arg->flags &= ~F_ZERO;
-	}
 	while (ft_isdigit(*format))
 		++format;
 	format = ft_parse_lflags(format, arg);
-	arg->conv = ft_get_conv(arg, *format);
-	if (!arg->conv)
-	{
-		arg->width = -1;
-		return (format);
-	}
+	arg->conv = ft_getconv(arg, *format);
+	if (arg->prec != -1 && arg->conv != 'c' && arg->conv != 's' &&
+		arg->conv != '%')
+		arg->flags &= ~F_ZERO;
 	return (++format);
 }

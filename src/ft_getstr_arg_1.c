@@ -18,5 +18,7 @@ char		*ft_getstr_arg_p(t_arg *arg, va_list *ap)
 	to_free = str;
 	str = ft_strmap(str, (char (*)(char))ft_tolower);
 	free(to_free);
+	if (!data && !arg->prec)
+		*str = 0;
 	return (str);
 }
