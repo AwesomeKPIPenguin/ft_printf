@@ -14,7 +14,7 @@ static char	*ft_getdata_arg_u(t_arg *arg, unsigned long long data, int base)
 	else if (arg->lflags & LF_H)
 		return (ft_uitoa_base((unsigned short)data, base));
 	else if (arg->lflags & LF_HH)
-		return (ft_uitoa_base((char)data, base));
+		return (ft_uitoa_base((unsigned char)data, base));
 	else if (arg->lflags & LF_J)
 		return (ft_uitoa_base((uintmax_t)data, base));
 	else if (arg->lflags & LF_Z)
@@ -43,10 +43,10 @@ char		*ft_getstr_arg_u(t_arg *arg, va_list *ap)
 		str = ft_strmap(str, (char (*)(char))ft_tolower);
 		free(to_free);
 	}
+	if (!data && !arg->prec && !(arg->conv == 'o' && arg->flags & F_SHARP))
+		*str = 0;
 	if (!data)
 		arg->flags &= ~F_SHARP;
-	if (!data && !arg->prec)
-		*str = 0;
 	return (str);
 }
 

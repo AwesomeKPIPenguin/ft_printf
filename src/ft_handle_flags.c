@@ -45,7 +45,7 @@ static char *ft_get_sharp_str(t_arg *arg, int *sharp_len)
 	if (arg->flags & F_SHARP)
 	{
 		sharp_str = (arg->conv == 'o') ? ft_strdup("0") : ft_strdup("0X");
-		if (arg->conv == 'x')
+		if (arg->conv == 'x' || arg->conv == 'p')
 			sharp_str[1] = 'x';
 		*sharp_len = ft_strlen(sharp_str);
 	}
@@ -97,7 +97,8 @@ char		*ft_handle_prec(t_arg *arg, char *str)
 
 	len = ft_strlen(str);
 	sign = (*str == '-') ? 1 : 0;
-	if (!(F_ZERO & ft_getmask(arg->conv)) || arg->prec <= len - sign)
+	if (!(F_ZERO & ft_getmask(arg->conv)) || arg->conv == 'c' ||
+		arg->conv == 's' || arg->prec <= len - sign)
 		return (str);
 	if (!(res = malloc((arg->prec + sign) * sizeof(char))))
 		return (NULL);

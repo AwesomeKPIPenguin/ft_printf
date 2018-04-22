@@ -28,22 +28,11 @@ int		ft_get_conv(t_arg *arg, char conv)
 	res = 0;
 	if (conv == 's' || conv == 'd' || conv == 'i' || conv == 'o' ||
 		conv == 'u' || conv == 'x' || conv == 'X' || conv == 'c' ||
-		conv == 'p' || conv == '%')
-		res = conv;
-	else if (conv == 'D' || conv == 'C' || conv == 'S' || conv == 'O' ||
-			conv == 'U')
-	{
+		conv == 'p' || conv == '%' || conv == 'D' || conv == 'C' ||
+		conv == 'S' || conv == 'O' || conv == 'U')
+		res = (conv != 'X') ? ft_tolower(conv) : conv;
+	if (ft_isupper(conv) && conv != 'X')
 		arg->lflags |= LF_L;
-		res = ft_tolower(conv);
-	}
-	if (res == 'x' || res == 'X' || res == 'u' || res == 'o')
-	{
-		if (res == 'u')
-			arg->flags &= ~F_SHARP;
-		arg->flags &= ~(F_PLUS | F_SPACE);
-	}
-	else
-		arg->flags &= ~F_SHARP;
 	arg->flags &= ft_getmask(res);
 	return (res);
 }

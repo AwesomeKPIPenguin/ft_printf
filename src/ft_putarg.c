@@ -21,7 +21,8 @@ static void ft_fix_sign(t_arg *arg, char *str)
 	{
 		while (str[i] == '0')
 			++i;
-		if (str[i] == '-' || str[i] == '+')
+		if (str[i] == '-' || str[i] == '+' ||
+			(arg->flags & F_SPACE && str[i] == ' '))
 		{
 			str[0] = str[i];
 			str[i] = '0';
