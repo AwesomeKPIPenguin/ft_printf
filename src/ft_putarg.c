@@ -75,14 +75,14 @@ char	*ft_putarg(char *format, va_list *ap, int *res)
 	t_arg	*arg;
 	char	*str;
 
-	arg = ft_argnew();
-	format = ft_getarg(arg, format);
+	format = ft_getarg((arg = ft_argnew()), format);
+	if (!arg->conv)
+		return (format);
 	if (!ft_isvalid_conv(arg->conv))
 	{
-		if (!(str = (char *)malloc(2 * sizeof(char))))
+		if (!(str = (char *)ft_memalloc(2 * sizeof(char))))
 			return (NULL);
 		str[0] = arg->conv;
-		str[1] = 0;
 		arg->conv = 'c';
 	}
 	else

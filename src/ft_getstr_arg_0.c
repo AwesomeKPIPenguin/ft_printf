@@ -89,22 +89,3 @@ char		*ft_getstr_arg_c(t_arg *arg, va_list *ap)
 		str[0] = (char)data;
 	return (str);
 }
-
-char		*ft_getstr_arg_s(t_arg *arg, va_list *ap)
-{
-	wchar_t	*data;
-	char	*res;
-	int 	len;
-
-	data = va_arg(*ap, wchar_t *);
-	if (!data)
-		res = ft_strdup("(null)");
-	else if ((arg->lflags & LF_L) | (arg->lflags & LF_LL))
-		res = ft_ustos(data);
-	else
-		res = ft_strdup((char *)data);
-	len = ft_strlen(res);
-	if (arg->prec < len && arg->prec != -1)
-		res[arg->prec] = 0;
-	return (res);
-}

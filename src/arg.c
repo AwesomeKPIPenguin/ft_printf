@@ -54,8 +54,11 @@ char	*ft_getarg(t_arg *arg, char *format)
 		++format;
 	format = ft_parse_lflags(format, arg);
 	arg->conv = ft_getconv(arg, *format);
-	if (arg->prec != -1 && arg->conv != 'c' && arg->conv != 's' &&
-		arg->conv != '%')
+	if (arg->prec != -1 && (arg->conv == 'd' || arg->conv == 'i' ||
+		arg->conv == 'o' || arg->conv == 'u' || arg->conv == 'x' ||
+		arg->conv == 'X' || arg->conv == 'p'))
 		arg->flags &= ~F_ZERO;
+	if (arg->conv == 'o' && (arg->flags & F_SHARP) && arg->prec > 0)
+		--arg->prec;
 	return (++format);
 }
