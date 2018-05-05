@@ -1,7 +1,14 @@
-
-//
-// Created by Dimon on 07.04.2018.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_getstr_arg_0.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/05 14:48:19 by domelche          #+#    #+#             */
+/*   Updated: 2018/05/05 14:48:38 by domelche         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../printf.h"
 
@@ -67,7 +74,7 @@ char		*ft_getstr_arg_i(t_arg *arg, va_list *ap)
 	else if (arg->lflags & LF_J)
 		str = ft_itoa((intmax_t)data);
 	else if (arg->lflags & LF_Z)
-		str = ft_itoa((size_t)data); // <------------------------------------- z
+		str = ft_itoa((size_t)data);
 	else
 		str = ft_itoa((int)data);
 	if (!data && !arg->prec)

@@ -1,7 +1,14 @@
-
-//
-// Created by Dimon on 07.04.2018.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_getstr_arg_1.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/05 14:50:52 by domelche          #+#    #+#             */
+/*   Updated: 2018/05/05 14:53:28 by domelche         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../printf.h"
 
@@ -23,35 +30,20 @@ char		*ft_getstr_arg_p(t_arg *arg, va_list *ap)
 	return (str);
 }
 
-static void ft_getprec_for_ls(t_arg *arg, char *str)
+static void	ft_getprec_for_ls(t_arg *arg, char *str)
 {
-	int 	i;
-	int		new_prec;
-
-	if (arg->prec < 1)
+	if (arg->prec > (int)ft_strlen(str) && arg->prec != -1)
 		return ;
-	i = -1;
-	new_prec = arg->prec;
-	while (str[++i] && arg->prec > 0)
-	{
-		if ((unsigned char)str[i] < 0x80 || (unsigned char)str[i] >= 0xC0)
-			--arg->prec;
-		else
-			++new_prec;
-	}
-	while ((unsigned char)str[i] >= 0x80 && (unsigned char)str[i] < 0xC0)
-	{
-		++new_prec;
-		++i;
-	}
-	arg->prec = new_prec;
+	while ((unsigned char)str[arg->prec] >= 0x80 &&
+			(unsigned char)str[arg->prec] < 0xC0 && arg->prec > 0)
+		--arg->prec;
 }
 
 char		*ft_getstr_arg_s(t_arg *arg, va_list *ap)
 {
 	wchar_t	*data;
 	char	*res;
-	int 	len;
+	int		len;
 
 	data = va_arg(*ap, wchar_t *);
 	if (!data)

@@ -12,7 +12,7 @@
 
 #include "../printf.h"
 
-t_arg	*ft_argnew()
+t_arg	*ft_argnew(void)
 {
 	t_arg	*arg;
 
@@ -21,7 +21,7 @@ t_arg	*ft_argnew()
 	return (arg);
 }
 
-int 	ft_isvalid_conv(char c)
+int		ft_isvalid_conv(char c)
 {
 	return (c == 's' || c == 'd' || c == 'i' || c == 'o' ||
 			c == 'u' || c == 'x' || c == 'X' || c == 'c' ||

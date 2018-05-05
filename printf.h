@@ -52,7 +52,7 @@ typedef struct		s_arg
 
 t_arg				*ft_argnew();
 char				*ft_getarg(t_arg *arg, char *format);
-int 				ft_isvalid_conv(char c);
+int					ft_isvalid_conv(char c);
 
 char				*ft_putarg(char *format, va_list *ap, int *res);
 
@@ -60,7 +60,6 @@ char				*ft_parse_lflags(char *str, t_arg *arg);
 
 char				*ft_parse_flags(char *str, t_arg *arg);
 uint16_t			ft_getmask(char c);
-
 
 char				*ft_getstr_arg_u(t_arg *arg, va_list *ap);
 char				*ft_getstr_arg_i(t_arg *arg, va_list *ap);

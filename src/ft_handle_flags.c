@@ -6,15 +6,15 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/13 16:06:48 by domelche          #+#    #+#             */
-/*   Updated: 2018/04/13 16:07:52 by domelche         ###   ########.fr       */
+/*   Updated: 2018/05/05 14:59:39 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../printf.h"
 
-static void ft_strjoin_3(char *dst, char *str_0, char *str_1, char *str_2)
+static void	ft_strjoin_3(char *dst, char *str_0, char *str_1, char *str_2)
 {
-	int 	i;
+	int		i;
 
 	i = 0;
 	if (str_0)
@@ -32,11 +32,11 @@ static void ft_strjoin_3(char *dst, char *str_0, char *str_1, char *str_2)
 	if (str_2)
 	{
 		ft_strcpy(&(dst[i]), str_2);
-		//free(str_2);//              <--------------------- weird free --------
+		free(str_2);
 	}
 }
 
-static char *ft_get_sharp_str(t_arg *arg, int *sharp_len)
+static char	*ft_get_sharp_str(t_arg *arg, int *sharp_len)
 {
 	char	*sharp_str;
 
@@ -63,7 +63,7 @@ static char *ft_get_sharp_str(t_arg *arg, int *sharp_len)
 char		*ft_handle_width(t_arg *arg, char *s)
 {
 	char	*str[3];
-	int 	len[3];
+	int		len[3];
 	char	fill_char;
 
 	str[0] = s;
@@ -104,7 +104,7 @@ char		*ft_handle_prec(t_arg *arg, char *str)
 		return (NULL);
 	ft_memset(&(res[sign]), '0', arg->prec - len + sign);
 	(void)(ft_strcpy(&(res[2 * sign + arg->prec - len]), &(str[sign])) -
-		   arg->prec + len);
+		arg->prec + len);
 	if (sign)
 		res[0] = '-';
 	free(str);

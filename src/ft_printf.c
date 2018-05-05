@@ -6,7 +6,7 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/07 17:35:29 by domelche          #+#    #+#             */
-/*   Updated: 2018/03/31 17:24:00 by domelche         ###   ########.fr       */
+/*   Updated: 2018/05/05 14:54:28 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int		ft_printf(const char *format, ...)
 {
 	va_list ap;
-	char 	*str;
+	char	*str;
 	char	*to_free;
-	int 	res;
+	int		res;
 
 	if (!ft_strchr(format, '%'))
 	{

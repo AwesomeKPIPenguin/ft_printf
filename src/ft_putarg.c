@@ -6,13 +6,13 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/13 15:54:11 by domelche          #+#    #+#             */
-/*   Updated: 2018/04/13 16:05:53 by domelche         ###   ########.fr       */
+/*   Updated: 2018/05/05 14:59:15 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../printf.h"
 
-static void ft_fix_sign(t_arg *arg, char *str)
+static void	ft_fix_sign(t_arg *arg, char *str)
 {
 	int		i;
 
@@ -34,7 +34,7 @@ static char	*ft_handle_flags(t_arg *arg, char *str)
 {
 	char	*res;
 
-	res = ft_strdup(str);
+	res = str;
 	res = ft_handle_prec(arg, res);
 	res = ft_handle_plus(arg, res);
 	res = ft_handle_width(arg, res);
@@ -43,7 +43,7 @@ static char	*ft_handle_flags(t_arg *arg, char *str)
 
 static void	ft_handle_nullchar(t_arg *arg, char *str, int *res)
 {
-	int 	len;
+	int		len;
 
 	str[0] = -1;
 	str = ft_handle_flags(arg, str);
@@ -53,31 +53,10 @@ static void	ft_handle_nullchar(t_arg *arg, char *str, int *res)
 	write(1, str, len);
 }
 
-static char *ft_argtoa(t_arg *arg, va_list *ap)
+static char	*ft_argtoa(t_arg *arg, va_list *ap)
 {
-	if (arg->conv == '%')
-		return (ft_strdup("%"));
-	else if (arg->conv == 'd' || arg->conv == 'i')
-		return (ft_getstr_arg_i(arg, ap));
-	else if (arg->conv == 'u' || arg->conv == 'o' ||
-			 arg->conv == 'x' || arg->conv == 'X')
-		return (ft_getstr_arg_u(arg, ap));
-	else if (arg->conv == 'c')
-		return (ft_getstr_arg_c(arg, ap));
-	else if (arg->conv == 's')
-		return (ft_getstr_arg_s(arg, ap));
-	else
-		return (ft_getstr_arg_p(arg, ap));
-}
-
-char	*ft_putarg(char *format, va_list *ap, int *res)
-{
-	t_arg	*arg;
 	char	*str;
 
-	format = ft_getarg((arg = ft_argnew()), format);
-	if (!arg->conv)
-		return (format);
 	if (!ft_isvalid_conv(arg->conv))
 	{
 		if (!(str = (char *)ft_memalloc(2 * sizeof(char))))
@@ -86,7 +65,33 @@ char	*ft_putarg(char *format, va_list *ap, int *res)
 		arg->conv = 'c';
 	}
 	else
-		str = ft_argtoa(arg, ap);
+	{
+		if (arg->conv == '%')
+			str = ft_strdup("%");
+		else if (arg->conv == 'd' || arg->conv == 'i')
+			str = ft_getstr_arg_i(arg, ap);
+		else if (arg->conv == 'p')
+			str = ft_getstr_arg_p(arg, ap);
+		else if (arg->conv == 'c')
+			str = ft_getstr_arg_c(arg, ap);
+		else if (arg->conv == 's')
+			str = ft_getstr_arg_s(arg, ap);
+		else
+			str = ft_getstr_arg_u(arg, ap);
+	}
+	return (str);
+}
+
+char		*ft_putarg(char *format, va_list *ap, int *res)
+{
+	t_arg	*arg;
+	char	*str;
+
+	arg = ft_argnew();
+	format = ft_getarg(arg, format);
+	if (!arg->conv)
+		return (format);
+	str = ft_argtoa(arg, ap);
 	if (arg->conv == 'c' && !*str)
 		ft_handle_nullchar(arg, str, res);
 	else
@@ -95,6 +100,8 @@ char	*ft_putarg(char *format, va_list *ap, int *res)
 		ft_fix_sign(arg, str);
 		*res += ft_strlen(str);
 		ft_putstr(str);
+		free(str);
 	}
+	free(arg);
 	return (format);
 }
