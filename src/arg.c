@@ -39,6 +39,8 @@ int		ft_getconv(t_arg *arg, char conv)
 		res = (conv != 'X') ? ft_tolower(conv) : conv;
 	if (ft_isupper(conv) && conv != 'X')
 		arg->lflags |= LF_L;
+	if (res == 'c' && (arg->flags & (LF_L | LF_LL)) && MB_CUR_MAX == 1)
+		arg->flags &= ~(LF_L | LF_LL);
 	arg->flags &= ft_getmask(res);
 	return (res);
 }

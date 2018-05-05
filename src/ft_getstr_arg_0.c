@@ -76,7 +76,7 @@ char		*ft_getstr_arg_i(t_arg *arg, va_list *ap)
 	else if (arg->lflags & LF_J)
 		str = ft_itoa((intmax_t)data);
 	else if (arg->lflags & LF_Z)
-		str = ft_itoa((size_t)data);
+		str = ft_itoa((ssize_t)data);
 	else
 		str = ft_itoa((int)data);
 	if (!data && !arg->prec)

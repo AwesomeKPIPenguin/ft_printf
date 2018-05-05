@@ -19,7 +19,6 @@
 # include <stdint.h>
 # include <wchar.h>
 # include "libft/libft.h"
-# include <stdio.h>
 
 /*
 **	Bits' positions in mask:
