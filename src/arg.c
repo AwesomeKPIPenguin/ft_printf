@@ -26,7 +26,8 @@ int		ft_isvalid_conv(char c)
 	return (c == 's' || c == 'd' || c == 'i' || c == 'o' ||
 			c == 'u' || c == 'x' || c == 'X' || c == 'c' ||
 			c == 'p' || c == '%' || c == 'D' || c == 'C' ||
-			c == 'S' || c == 'O' || c == 'U');
+			c == 'S' || c == 'O' || c == 'U' || c == 'b' ||
+			c == 'B');
 }
 
 int		ft_getconv(t_arg *arg, char conv)
@@ -56,7 +57,7 @@ char	*ft_getarg(t_arg *arg, char *format)
 	arg->conv = ft_getconv(arg, *format);
 	if (arg->prec != -1 && (arg->conv == 'd' || arg->conv == 'i' ||
 		arg->conv == 'o' || arg->conv == 'u' || arg->conv == 'x' ||
-		arg->conv == 'X' || arg->conv == 'p'))
+		arg->conv == 'X' || arg->conv == 'p' || arg->conv == 'b'))
 		arg->flags &= ~F_ZERO;
 	if (arg->conv == 'o' && (arg->flags & F_SHARP) && arg->prec > 0)
 		--arg->prec;

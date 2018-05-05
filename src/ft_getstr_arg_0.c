@@ -43,6 +43,8 @@ char		*ft_getstr_arg_u(t_arg *arg, va_list *ap)
 		base = 16;
 	else if (arg->conv == 'o')
 		base = 8;
+	else if (arg->conv == 'b')
+		base = 2;
 	str = ft_getdata_arg_u(arg, data, base);
 	if (arg->conv == 'x')
 	{
