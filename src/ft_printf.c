@@ -15,9 +15,10 @@
 int		ft_printf(const char *format, ...)
 {
 	va_list ap;
-	char	*str;
+	char	*f;
 	char	*to_free;
 	int		res;
+	char	*str;
 
 	if (!ft_strchr(format, '%'))
 	{
@@ -25,17 +26,17 @@ int		ft_printf(const char *format, ...)
 		return ((int)ft_strlen(format));
 	}
 	va_start(ap, format);
-	str = ft_strdup(format);
-	to_free = str;
+	f = ft_strdup(format);
+	to_free = f;
 	res = 0;
-	while (str && *str)
-		if (*str != '%')
+	while (f && *f)
+		if (*f != '%')
 		{
-			ft_putchar(*(str++));
+			ft_putchar(*(f++));
 			++res;
 		}
 		else
-			str = ft_putarg(++str, &ap, &res);
+			f = ft_putarg(++f, &ap, &res);
 	va_end(ap);
 	free(to_free);
 	return (res);

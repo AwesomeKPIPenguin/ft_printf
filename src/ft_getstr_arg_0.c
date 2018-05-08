@@ -92,7 +92,8 @@ char		*ft_getstr_arg_c(t_arg *arg, va_list *ap)
 	data = va_arg(*ap, int);
 	if (!(str = (char *)ft_memalloc(5 * sizeof(char))))
 		return (NULL);
-	if ((arg->lflags & LF_L) | (arg->lflags & LF_LL))
+	if (((arg->lflags & LF_L) | (arg->lflags & LF_LL)) &&
+		MB_CUR_MAX == sizeof(wchar_t))
 		ft_write_wctoa(data, str);
 	else
 		str[0] = (char)data;
