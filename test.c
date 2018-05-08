@@ -9,11 +9,15 @@
 int		main(void)
 {
 	int		ret = 0;
+	int		i = 0;
 
 	//setlocale(LC_ALL, "");
-	ret = ft_printf("mine: %C\n", L'以');
-	printf("(%d)\n", ret);
-	ret = printf("%C", L'以');
-	printf("(%d)\n", ret);
+//	while (++i < 300)
+//	{
+		ret = ft_printf("%s, %s, %s;\n", "pisos", "moi", "bolshoi");
+		printf("(%d)\n", ret);
+		ret = printf("unix: %C\n", 240);
+		printf("(%d)\n", ret);
+	//}
 	return (0);
 }

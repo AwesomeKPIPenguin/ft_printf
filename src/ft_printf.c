@@ -12,13 +12,26 @@
 
 #include "../printf.h"
 
-int		ft_printf(const char *format, ...)
+static void	ft_print_format(va_list *ap, int *res, char *f, t_arg *arg)
+{
+	while (f && *f)
+		if (*f != '%')
+		{
+			//ft_putchar(*(f++));
+			++f;
+			++(*res);
+		}
+		else
+			f = ft_putarg(++f, ap, res, arg);
+}
+
+int			ft_printf(const char *format, ...)
 {
 	va_list ap;
 	char	*f;
 	char	*to_free;
 	int		res;
-	char	*str;
+	t_arg	*arg;
 
 	if (!ft_strchr(format, '%'))
 	{
@@ -29,15 +42,10 @@ int		ft_printf(const char *format, ...)
 	f = ft_strdup(format);
 	to_free = f;
 	res = 0;
-	while (f && *f)
-		if (*f != '%')
-		{
-			ft_putchar(*(f++));
-			++res;
-		}
-		else
-			f = ft_putarg(++f, &ap, &res);
+	arg = ft_argnew();
+	ft_print_format(&ap, &res, f, arg);
 	va_end(ap);
 	free(to_free);
+	free(arg);
 	return (res);
 }

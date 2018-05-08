@@ -82,12 +82,11 @@ static char	*ft_argtoa(t_arg *arg, va_list *ap)
 	return (str);
 }
 
-char		*ft_putarg(char *format, va_list *ap, int *res)
+char		*ft_putarg(char *format, va_list *ap, int *res, t_arg *arg)
 {
-	t_arg	*arg;
 	char	*str;
 
-	arg = ft_argnew();
+	ft_clrarg(arg);
 	format = ft_getarg(arg, format);
 	if (!arg->conv)
 		return (format);
@@ -99,9 +98,8 @@ char		*ft_putarg(char *format, va_list *ap, int *res)
 		str = ft_handle_flags(arg, str);
 		ft_fix_sign(arg, str);
 		*res += ft_strlen(str);
-		ft_putstr(str);
+		//ft_putstr(str);
 		free(str);
 	}
-	free(arg);
 	return (format);
 }

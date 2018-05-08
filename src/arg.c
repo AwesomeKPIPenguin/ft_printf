@@ -12,7 +12,7 @@
 
 #include "../printf.h"
 
-t_arg	*ft_argnew(void)
+t_arg		*ft_argnew(void)
 {
 	t_arg	*arg;
 
@@ -21,7 +21,16 @@ t_arg	*ft_argnew(void)
 	return (arg);
 }
 
-int		ft_isvalid_conv(char c)
+void		ft_clrarg(t_arg *arg)
+{
+	arg->flags = 0;
+	arg->width = 0;
+	arg->prec = -1;
+	arg->lflags = 0;
+	arg->conv = 0;
+}
+
+int			ft_isvalid_conv(char c)
 {
 	return (c == 's' || c == 'd' || c == 'i' || c == 'o' ||
 			c == 'u' || c == 'x' || c == 'X' || c == 'c' ||
@@ -30,7 +39,7 @@ int		ft_isvalid_conv(char c)
 			c == 'B');
 }
 
-int		ft_getconv(t_arg *arg, char conv)
+static int	ft_getconv(t_arg *arg, char conv)
 {
 	char	res;
 
@@ -45,7 +54,7 @@ int		ft_getconv(t_arg *arg, char conv)
 	return (res);
 }
 
-char	*ft_getarg(t_arg *arg, char *format)
+char		*ft_getarg(t_arg *arg, char *format)
 {
 	format = ft_parse_flags(format, arg);
 	arg->width = ft_atoi(format);
