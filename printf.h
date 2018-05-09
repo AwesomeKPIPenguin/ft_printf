@@ -49,11 +49,18 @@ typedef struct		s_arg
 	char			conv;
 }					t_arg;
 
+typedef struct		s_buf
+{
+	char			*data;
+	struct s_buf	*next;
+}					t_buf;
+
 t_arg				*ft_argnew();
+void				ft_clrarg(t_arg *arg);
 char				*ft_getarg(t_arg *arg, char *format);
 int					ft_isvalid_conv(char c);
 
-char				*ft_putarg(char *format, va_list *ap, int *res);
+char				*ft_putarg(char *format, va_list *ap, int *res, t_arg *arg);
 
 char				*ft_parse_lflags(char *str, t_arg *arg);
 
