@@ -49,16 +49,37 @@ typedef struct		s_arg
 	char			conv;
 }					t_arg;
 
+/*
+**	arg.c
+*/
+
 t_arg				*ft_argnew();
+void				ft_clrarg(t_arg *arg);
 char				*ft_getarg(t_arg *arg, char *format);
 int					ft_isvalid_conv(char c);
 
-char				*ft_putarg(char *format, va_list *ap, int *res);
+/*
+**	ft_putarg.c
+*/
+
+char				*ft_putarg(char *format, va_list *ap, int *res, t_arg *arg);
+
+/*
+**	lflag.c
+*/
 
 char				*ft_parse_lflags(char *str, t_arg *arg);
 
+/*
+**	flag.c
+*/
+
 char				*ft_parse_flags(char *str, t_arg *arg);
 uint16_t			ft_getmask(char c);
+
+/*
+**	ft_getstr_arg_01.c
+*/
 
 char				*ft_getstr_arg_u(t_arg *arg, va_list *ap);
 char				*ft_getstr_arg_i(t_arg *arg, va_list *ap);
@@ -66,9 +87,17 @@ char				*ft_getstr_arg_c(t_arg *arg, va_list *ap);
 char				*ft_getstr_arg_s(t_arg *arg, va_list *ap);
 char				*ft_getstr_arg_p(t_arg *arg, va_list *ap);
 
+/*
+**	ft_handle_flags.c
+*/
+
 char				*ft_handle_width(t_arg *arg, char *str);
 char				*ft_handle_prec(t_arg *arg, char *str);
 char				*ft_handle_plus(t_arg *arg, char *str);
+
+/*
+**	ft_printf.c
+*/
 
 int					ft_printf(const char *format, ...);
 
