@@ -14,15 +14,24 @@
 
 static void	ft_print_format(va_list *ap, int *res, char *f, t_arg *arg)
 {
+	char	*tmp;
+
+	tmp = f;
 	while (f && *f)
+	{
 		if (*f != '%')
 		{
-			//ft_putchar(*(f++));
 			++f;
 			++(*res);
 		}
 		else
+		{
+			write(1, tmp, f - tmp);
 			f = ft_putarg(++f, ap, res, arg);
+			tmp = f;
+		}
+	}
+	write(1, tmp, f - tmp);
 }
 
 int			ft_printf(const char *format, ...)

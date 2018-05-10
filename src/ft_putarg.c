@@ -98,7 +98,7 @@ char		*ft_putarg(char *format, va_list *ap, int *res, t_arg *arg)
 		str = ft_handle_flags(arg, str);
 		ft_fix_sign(arg, str);
 		*res += ft_strlen(str);
-		//ft_putstr(str);
+		ft_putstr(str);
 		free(str);
 	}
 	return (format);
