@@ -6,7 +6,7 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/31 13:24:41 by domelche          #+#    #+#             */
-/*   Updated: 2018/03/31 13:42:36 by domelche         ###   ########.fr       */
+/*   Updated: 2018/05/10 18:14:42 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*ft_strextract(char *str, int sign)
 	char			*res;
 
 	i = 0;
-	while (!str[i] && i < 31)
+	while (!str[i] && i < 8 * sizeof(unsigned long long) - 1)
 		i++;
 	if (sign)
 		str[--i] = '-';
@@ -39,8 +39,9 @@ char		*ft_itoa_basic(unsigned long long num, int sign, int base)
 	int		i;
 	char	*str;
 
-	i = 31;
-	if (!(str = (char *)ft_memalloc(sizeof(char) * 33)))
+	i = 8 * sizeof(unsigned long long) - 1;
+	if (!(str = (char *)
+		ft_memalloc(sizeof(char) * (8 * sizeof(unsigned long long) + 1))))
 		return (NULL);
 	str[i] = '0';
 	while (num)
