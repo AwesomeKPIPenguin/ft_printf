@@ -12,22 +12,25 @@
 
 #include "../printf.h"
 
-t_arg		*ft_argnew(void)
+t_arg		*ft_argnew(char *buffer)
 {
 	t_arg	*arg;
 
 	arg = (t_arg *)ft_memalloc(sizeof(t_arg));
 	arg->prec = -1;
+	arg->buf = ft_bufnew(buffer);
 	return (arg);
 }
 
 void		ft_clrarg(t_arg *arg)
 {
-	arg->flags = 0;
-	arg->width = 0;
+	t_buf	*tmp;
+
+	tmp = arg->buf;
+	free(arg->data);
+	ft_bzero(arg, sizeof(t_arg));
+	arg->buf = tmp;
 	arg->prec = -1;
-	arg->lflags = 0;
-	arg->conv = 0;
 }
 
 int			ft_isvalid_conv(char c)

@@ -12,33 +12,24 @@
 
 #include "../printf.h"
 
-static void	ft_print_format(va_list *ap, int *res, char *f, t_arg *arg)
+static int	ft_print_format(va_list *ap, char *f, t_arg *arg)
 {
-	char	*tmp;
-
-	tmp = f;
 	while (f && *f)
 	{
 		if (*f != '%')
-		{
-			++f;
-			++(*res);
-		}
+			ft_putchar_buf(arg->buf, *(f++));
 		else
-		{
-			write(1, tmp, f - tmp);
-			f = ft_putarg(++f, ap, res, arg);
-			tmp = f;
-		}
+			f = ft_putarg(++f, ap, arg);
 	}
-	write(1, tmp, f - tmp);
+	ft_putbuf(arg->buf, arg->buf->i);
+	return (arg->buf->res);
 }
 
 int			ft_printf(const char *format, ...)
 {
 	va_list ap;
-	char	*f;
-	char	*to_free;
+	char	**f;
+	char	buf[BUFF_SIZE];
 	int		res;
 	t_arg	*arg;
 
@@ -47,14 +38,16 @@ int			ft_printf(const char *format, ...)
 		ft_putstr(format);
 		return ((int)ft_strlen(format));
 	}
+	if (!(f = (char **)malloc(sizeof(char *) * 2)))
+		return (-1);
 	va_start(ap, format);
-	f = ft_strdup(format);
-	to_free = f;
-	res = 0;
-	arg = ft_argnew();
-	ft_print_format(&ap, &res, f, arg);
+	f[0] = ft_strdup(format);
+	f[1] = f[0];
+	arg = ft_argnew(buf);
+	res = ft_print_format(&ap, f[0], arg);
 	va_end(ap);
-	free(to_free);
+	free(f[1]);
+	free(arg->buf);
 	free(arg);
 	return (res);
 }

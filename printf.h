@@ -33,6 +33,11 @@
 # define F_PLUS		0x1000
 # define F_SPACE	0x800
 
+/*
+**	|lLhHjz|
+**	|000000|00
+*/
+
 # define LF_L		0x80
 # define LF_LL		0x40
 # define LF_H		0x20
@@ -40,20 +45,44 @@
 # define LF_J		0x8
 # define LF_Z		0x4
 
+typedef struct		s_buf
+{
+	char			*str;
+	int				i;
+	int				res;
+}					t_buf;
+
 typedef struct		s_arg
 {
+	char			conv;
+	char			sign;
+	uint8_t			lflags;
 	uint16_t		flags;
 	int				width;
+	int				pad_len;
 	int				prec;
-	uint8_t			lflags;
-	char			conv;
+	int				prec_len;
+	int				data_len;
+	int				sharp_len;
+	char			*data;
+	t_buf			*buf;
 }					t_arg;
+
+/*
+**	buffer.c
+*/
+
+
+t_buf				*ft_bufnew(char *buf_ptr);
+void				ft_putbuf(t_buf *buf, int len);
+void				ft_putchar_buf(t_buf *buf, char c);
+void				ft_putstr_buf(t_buf *buf, char *str);
 
 /*
 **	arg.c
 */
 
-t_arg				*ft_argnew();
+t_arg				*ft_argnew(char *buffer);
 void				ft_clrarg(t_arg *arg);
 char				*ft_getarg(t_arg *arg, char *format);
 int					ft_isvalid_conv(char c);
@@ -62,7 +91,7 @@ int					ft_isvalid_conv(char c);
 **	ft_putarg.c
 */
 
-char				*ft_putarg(char *format, va_list *ap, int *res, t_arg *arg);
+char				*ft_putarg(char *format, va_list *ap, t_arg *arg);
 
 /*
 **	lflag.c
@@ -91,6 +120,7 @@ char				*ft_getstr_arg_p(t_arg *arg, va_list *ap);
 **	ft_handle_flags.c
 */
 
+void				ft_handle_flags(t_arg *arg);
 char				*ft_handle_width(t_arg *arg, char *str);
 char				*ft_handle_prec(t_arg *arg, char *str);
 char				*ft_handle_plus(t_arg *arg, char *str);
