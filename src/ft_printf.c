@@ -49,5 +49,6 @@ int			ft_printf(const char *format, ...)
 	free(f[1]);
 	free(arg->buf);
 	free(arg);
+	free(f);
 	return (res);
 }

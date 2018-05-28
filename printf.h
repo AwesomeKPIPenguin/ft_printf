@@ -6,7 +6,7 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/07 17:36:21 by domelche          #+#    #+#             */
-/*   Updated: 2018/05/10 14:18:20 by domelche         ###   ########.fr       */
+/*   Updated: 2018/05/28 16:12:00 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ typedef struct		s_arg
 **	buffer.c
 */
 
-
 t_buf				*ft_bufnew(char *buf_ptr);
 void				ft_putbuf(t_buf *buf, int len);
 void				ft_putchar_buf(t_buf *buf, char c);
+void				ft_putnchar_buf(t_buf *buf, char *str, int n);
 void				ft_putstr_buf(t_buf *buf, char *str);
 
 /*

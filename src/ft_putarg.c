@@ -46,8 +46,15 @@ char		*ft_putarg(char *format, va_list *ap, t_arg *arg)
 	format = ft_getarg(arg, format);
 	if (!arg->conv)
 		return (format);
-	arg->data = ft_argtoa(arg, ap);
-	arg->data_len = ft_strlen(arg->data);
+	if (arg->conv == '%')
+	{
+		arg->data = ft_strnew(1, '%');
+		arg->conv = 'c';
+	}
+	else
+		arg->data = ft_argtoa(arg, ap);
+	arg->data_len = (arg->conv == 'c' && !*(arg->data)) ?
+		1 : ft_strlen(arg->data);
 	if (arg->data[0] == '-' && (arg->conv == 'd' || arg->conv == 'i'))
 	{
 		arg->sign = '-';

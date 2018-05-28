@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   buffer.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/28 16:08:44 by domelche          #+#    #+#             */
+/*   Updated: 2018/05/28 16:11:14 by domelche         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../printf.h"
 
@@ -17,7 +28,6 @@ void	ft_putbuf(t_buf *buf, int len)
 {
 	buf->res += buf->i;
 	write(1, buf->str, len);
-	ft_bzero(buf->str, len);
 	buf->i = 0;
 }
 
@@ -29,10 +39,19 @@ void	ft_putchar_buf(t_buf *buf, char c)
 		ft_putbuf(buf, BUFF_SIZE);
 }
 
+void	ft_putnchar_buf(t_buf *buf, char *str, int n)
+{
+	int		i;
+
+	i = -1;
+	while (++i < n)
+		ft_putchar_buf(buf, str[i]);
+}
+
 void	ft_putstr_buf(t_buf *buf, char *str)
 {
 	int		i;
-	
+
 	i = 0;
 	while (str[i])
 		ft_putchar_buf(buf, str[i++]);
