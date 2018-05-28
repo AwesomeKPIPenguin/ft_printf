@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../printf.h"
+#include "../libftprintf.h"
 
 void	ft_handle_left_pad(t_arg *arg)
 {

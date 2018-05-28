@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../printf.h"
+#include "../libftprintf.h"
 
 static char	*ft_parse_lflags_l(char *str, t_arg *arg)
 {

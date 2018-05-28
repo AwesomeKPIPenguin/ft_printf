@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../printf.h"
+#include "../libftprintf.h"
 
 static char	*ft_argtoa(t_arg *arg, va_list *ap)
 {

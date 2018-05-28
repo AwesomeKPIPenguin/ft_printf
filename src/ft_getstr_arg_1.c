@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../printf.h"
+#include "../libftprintf.h"
 
 char		*ft_getstr_arg_p(t_arg *arg, va_list *ap)
 {

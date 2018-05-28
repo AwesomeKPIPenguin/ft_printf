@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../printf.h"
+#include "../libftprintf.h"
 
 t_buf	*ft_bufnew(char *buf_ptr)
 {

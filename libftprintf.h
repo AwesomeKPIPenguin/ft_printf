@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINTF_H
+#ifndef LIBFTPRINTF_H
 
-# define PRINTF_H
+# define LIBFTPRINTF_H
 
 # include <stdarg.h>
 # include <stddef.h>

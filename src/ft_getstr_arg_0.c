@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../printf.h"
+#include "../libftprintf.h"
 
 static char	*ft_getdata_arg_u(t_arg *arg, unsigned long long data, int base)
 {
