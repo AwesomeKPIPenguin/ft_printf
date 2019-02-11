@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_torad.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/26 18:49:36 by domelche          #+#    #+#             */
-/*   Updated: 2018/03/31 14:14:30 by domelche         ###   ########.fr       */
+/*   Created: 2018/09/19 12:13:35 by domelche          #+#    #+#             */
+/*   Updated: 2018/09/19 12:14:33 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "atoi_basic.h"
 
-long long	ft_atoi(const char *str)
+float		ft_torad(float degrees)
 {
-	if (!str)
-		return (0);
-	return (ft_atoi_basic(str, 10));
+	return (degrees * (float)M_PI / 180.0f);
 }

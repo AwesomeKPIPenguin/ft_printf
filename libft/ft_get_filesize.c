@@ -1,21 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_get_filesize.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/26 18:49:36 by domelche          #+#    #+#             */
-/*   Updated: 2018/03/31 14:14:30 by domelche         ###   ########.fr       */
+/*   Created: 2018/07/22 15:15:59 by domelche          #+#    #+#             */
+/*   Updated: 2018/07/22 15:17:23 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "atoi_basic.h"
 
-long long	ft_atoi(const char *str)
+size_t	ft_get_filesize(char *file_name)
 {
-	if (!str)
+	int		fd;
+	size_t	size;
+	int		res;
+	char	buf[BUFF_SIZE];
+
+	if ((fd = open(file_name, O_RDONLY)) < 0)
 		return (0);
-	return (ft_atoi_basic(str, 10));
+	if (read(fd, NULL, 0) < 0)
+		return (0);
+	size = 0;
+	while ((res = read(fd, buf, BUFF_SIZE)) > 0)
+		size += res;
+	close(fd);
+	return (size);
 }

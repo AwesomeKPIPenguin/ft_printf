@@ -6,7 +6,7 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/25 15:12:40 by domelche          #+#    #+#             */
-/*   Updated: 2018/04/03 13:15:27 by domelche         ###   ########.fr       */
+/*   Updated: 2018/09/19 19:05:37 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,17 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <fcntl.h>
 # include <string.h>
 # include <wchar.h>
 # include <stddef.h>
 # include <limits.h>
+# include <math.h>
 
 # define BUFF_SIZE 1024
+
+# define MAX(a, b) ((a) > (b)) ? (a) : (b)
+# define MIN(a, b) ((a) > (b)) ? (b) : (a)
 
 typedef struct		s_file
 {
@@ -67,7 +72,11 @@ char				*ft_strnstr(const char *haystack, const char *needle,
 						size_t len);
 int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
+
 long long			ft_atoi(const char *str);
+long long			ft_atoi_base(const char *str, int base);
+long double			ft_atod(const char *str);
+
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
 int					ft_isalnum(int c);
@@ -75,6 +84,7 @@ int					ft_isascii(int c);
 int					ft_isprint(int c);
 int					ft_isupper(int c);
 int					ft_islower(int c);
+int					ft_isspace(int c);
 int					ft_toupper(int c);
 int					ft_tolower(int c);
 
@@ -136,6 +146,8 @@ void				ft_warn(char *msg);
 int					ft_indexof_chr(char *str, int c);
 char				*ft_strcut(char *str, size_t from, size_t to);
 void				ft_strrplc(char *str, char find, char put);
+int					ft_limit(int min, int max, int num);
+double				ft_limitf(double min, double max, double num);
 
 void				ft_write_wctoa(wchar_t wc, char *str);
 char				*ft_ustos(wchar_t *us);
@@ -150,5 +162,12 @@ char				*ft_itoa(long long num);
 char				*ft_itoa_base(long long num, int base);
 char				*ft_uitoa(unsigned long long num);
 char				*ft_uitoa_base(unsigned long long num, int base);
+
+size_t				ft_get_filesize(char *file_name);
+char				*ft_readfile(char *file_name);
+
+float				ft_torad(float degrees);
+void				ft_solve_sqr
+						(float a, float b, float c, float (*res)[3]);
 
 #endif

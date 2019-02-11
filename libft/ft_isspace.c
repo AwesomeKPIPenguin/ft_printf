@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/26 18:49:36 by domelche          #+#    #+#             */
-/*   Updated: 2018/03/31 14:14:30 by domelche         ###   ########.fr       */
+/*   Created: 2018/07/22 15:14:38 by domelche          #+#    #+#             */
+/*   Updated: 2018/07/22 15:14:48 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "atoi_basic.h"
 
-long long	ft_atoi(const char *str)
+int		ft_isspace(int c)
 {
-	if (!str)
-		return (0);
-	return (ft_atoi_basic(str, 10));
+	return (((c >= 9 && c <= 13) || c == 32) ? 1 : 0);
 }
